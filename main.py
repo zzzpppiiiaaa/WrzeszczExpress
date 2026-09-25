@@ -10,7 +10,7 @@ SCREEN_HEIGHT = 1000
 FPS = 60
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Template")
+pygame.display.set_caption("Wrzeszcz Express")
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("Bahnschrift SemiBold Condensed", 25)
 
