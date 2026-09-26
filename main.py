@@ -1,4 +1,5 @@
 import random
+import time
 import pygame
 from pygame.locals import *
 from train import *
@@ -11,6 +12,7 @@ FPS = 60
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Wrzeszcz Express")
+pygame.display.set_icon(screen)
 clock = pygame.time.Clock()
 font = pygame.font.SysFont("Bahnschrift SemiBold Condensed", 25)
 
@@ -57,8 +59,8 @@ while running:
             print(x, y)
 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_a:
-                print("key a pressed")
+            if event.key == pygame.K_ESCAPE:
+                running = False
 
     pygame.draw.rect(screen, (102, 102, 102), pygame.Rect(10, 100, 60, 6))
     pygame.draw.rect(screen, (102, 102, 102), pygame.Rect(75, 100, 60, 6))
@@ -70,6 +72,8 @@ while running:
     semR501.draw()
     semR502.draw()
 
+    poc1111.update()
+    print(poc1111.localisation)
     # text = font.render("text", True, (255, 0, 0))
     # screen.blit(text, (100, 200))
 
