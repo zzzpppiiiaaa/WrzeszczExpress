@@ -30,6 +30,9 @@ class Train:
         else:
             self.waiting()
 
+        if self.localisation in ["Sopot", "Gdansk Oliwa", "Bretowo","Gdansk Glowny"] and self.clock >= 1200:
+            del self
+
     def waiting(self):
         self.iswaiting = True
 
