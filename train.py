@@ -37,6 +37,10 @@ class Train:
         if self.iswaiting: print("WAITING")
         self.clock += 1
         if self.localisation in ["block1", "block2", "block3", "block4", "block51" "block52", "block53", "block54", "block5", "block6", "block7", "block55", "block56", "block57","block21", "block22", "block23"]:
-            if self.clock >= 120:
+            if self.clock >= 1200:
+                self.clock = 0
+                self.move()
+        else:
+            if self.clock >= 300:
                 self.clock = 0
                 self.move()
