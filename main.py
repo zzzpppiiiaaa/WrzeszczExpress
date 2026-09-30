@@ -6,15 +6,15 @@ from train import *
 
 pygame.init()
 
-SCREEN_WIDTH = 1700
-SCREEN_HEIGHT = 1000
+SCREEN_WIDTH = 1920
+SCREEN_HEIGHT = 1020
 FPS = 60
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Wrzeszcz Express")
 pygame.display.set_icon(screen)
 clock = pygame.time.Clock()
-font = pygame.font.Font("Bahnschrift.ttf", 25)
+font = pygame.font.Font("Bahnschrift.ttf", 18)
 
 #obrazki
 kierunek_blokady_left = pygame.image.load('kierunek blokadyv3.png')#rozmiar 45 na 35
