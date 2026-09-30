@@ -39,7 +39,7 @@ class Triangle:
     def draw(self):
         pygame.draw.polygon(screen, (102, 102, 102), ((self.x, self.y), (self.x1, self.y1), (self.x2, self.y2)))
         text = font.render(self.name, True, (255, 214, 0))
-        screen.blit(text, ((self.x1), self.y1 - 50))
+        screen.blit(text, ((self.x1-10), self.y1 - 50))
 
 class Block:
     def __init__(self, left, top, width, height, name):
@@ -85,6 +85,8 @@ while running:
             if event.key == pygame.K_ESCAPE:
                 running = False
 
+    screen.blit(kierunek_blokady_left, (205,80))
+    screen.blit(kierunek_blokady_right, (205,150))
 
     semR501.draw()
     semR502.draw()
@@ -96,8 +98,6 @@ while running:
     block59.draw()
     block60.draw()
 
-    screen.blit(kierunek_blokady_left, (205,80))
-    screen.blit(kierunek_blokady_right, (205,150))
 
     poc1111.update()
     #print(poc1111.localisation)
