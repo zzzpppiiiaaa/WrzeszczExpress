@@ -17,7 +17,8 @@ clock = pygame.time.Clock()
 font = pygame.font.SysFont("Bahnschrift SemiBold Condensed", 25)
 
 #obrazki
-kierunek_blokady = pygame.image.load('kierunek blokadyv3.png')
+kierunek_blokady_left = pygame.image.load('kierunek blokadyv3.png')#rozmiar 45 na 35
+kierunek_blokady_right = pygame.image.load('kierunek blokady 2v3.png')
 
 class Triangle:
     def __init__(self, x, y, scale, name, left=True):
@@ -55,8 +56,8 @@ class Block:
 
         pygame.draw.rect(screen, color, pygame.Rect(self.left, self.top, self.width, self.height))
 
-semR501 = Triangle(287, 103, 15, "R501", left=False)
-semR502 = Triangle(287, 173, 15, "R502", left=False)
+semR501 = Triangle(277, 103, 15, "R501", left=False)
+semR502 = Triangle(277, 173, 15, "R502", left=False)
 
 block55 = Block(10, 100, 60, 6, "block55")
 block56 = Block(75, 100, 60, 6, "block56")
@@ -95,7 +96,8 @@ while running:
     block59.draw()
     block60.draw()
 
-    screen.blit(kierunek_blokady, (205,80))
+    screen.blit(kierunek_blokady_left, (205,80))
+    screen.blit(kierunek_blokady_right, (205,150))
 
     poc1111.update()
     #print(poc1111.localisation)
