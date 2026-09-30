@@ -58,6 +58,10 @@ class Block:
 
 semR501 = Triangle(277, 103, 15, "R501", left=False)
 semR502 = Triangle(277, 173, 15, "R502", left=False)
+semR501_2 = Triangle(285, 103, 12, "", left=True)
+semR502_2 = Triangle(285, 173, 12, "", left=True)
+semH501 = Triangle(450, 103, 15, "H501", left=True)
+semH502 = Triangle(450, 173, 15, "H502", left=True)
 
 block55 = Block(10, 100, 60, 6, "block55")
 block56 = Block(75, 100, 60, 6, "block56")
@@ -65,6 +69,10 @@ block57 = Block(140, 100, 60, 6, "block57")
 block58 = Block(10, 170, 60, 6, "block58")
 block59 = Block(75, 170, 60, 6, "block59")
 block60 = Block(140, 170, 60, 6, "block60")  # Bloki Gdańsk Oliwa SKM
+block61 = Block(305, 100, 140, 6, "block61")
+block62 = Block(305, 170, 140, 6, "block62")
+block63 = Block(470, 100, 140, 6, "block63")
+block64 = Block(470, 170, 140, 6, "block64")
 
 poc1111 = Train(1111, "block1")
 
@@ -88,6 +96,10 @@ while running:
 
     semR501.draw()
     semR502.draw()
+    semR501_2.draw()
+    semR502_2.draw()
+    semH501.draw()
+    semH502.draw()
 
     block55.draw()
     block56.draw()
@@ -95,6 +107,10 @@ while running:
     block58.draw()
     block59.draw()
     block60.draw()
+    block61.draw()
+    block62.draw()
+    block63.draw()
+    block64.draw()
 
     screen.blit(kierunek_blokady_left, (205,80))
     screen.blit(kierunek_blokady_right, (205,150))
