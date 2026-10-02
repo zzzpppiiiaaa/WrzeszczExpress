@@ -59,6 +59,7 @@ sem = [
     Triangle(1080, 173, 15, "G502", left=True),
     Triangle(875, 103, 15, "J502", left=False),
     Triangle(875, 173, 15, "J502", left=False),
+    #nie skm
 ]
 
 blocks = [
@@ -87,6 +88,21 @@ blocks = [
     Block(1100, 170, 300, 6, "block178"),
     Block(885, 100, 190, 6, "block179"),
     Block(885, 170, 190, 6, "block180"),
+    #nie skm
+    Block(10, 300, 60, 6, "block55"),
+    Block(75, 300, 60, 6, "block56"),
+    Block(140, 300, 60, 6, "block57"),
+    Block(10, 370, 60, 6, "block58"),
+    Block(75, 370, 60, 6, "block59"),
+    Block(140, 370, 60, 6, "block60"),
+    Block(1870, 300, 40, 6, "block65"),
+    Block(1870, 370, 40, 6, "block66"),
+    Block(1825, 300, 40, 6, "block67"),
+    Block(1825, 370, 40, 6, "block68"),
+    Block(1780, 300, 40, 6, "block69"),
+    Block(1780, 370, 40, 6, "block70"),
+    Block(1735, 300, 40, 6, "block71"),
+    Block(1735, 370, 40, 6, "block72"),
 ]
 
 # poc1111 = Train(1111, "block55")
