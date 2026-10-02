@@ -2,7 +2,8 @@ import random
 import time
 import pygame
 from pygame.locals import *
-from train import *
+from train_class import Train
+from block_class import Block
 
 pygame.init()
 
