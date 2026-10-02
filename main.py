@@ -41,7 +41,7 @@ class Triangle:
         pygame.draw.polygon(screen, (102, 102, 102), ((self.x, self.y), (self.x1, self.y1), (self.x2, self.y2)))
         text = font.render(self.name, True, (255, 214, 0))
         screen.blit(text, ((self.x1-10), self.y1 - 50))
-sem = [
+semaphores = [
     #skm
     Triangle(277, 103, 15, "R501", left=False),
     Triangle(277, 173, 15, "R502", left=False),
@@ -105,7 +105,9 @@ blocks = [
     Block(1735, 370, 40, 6, "block72"),
 ]
 
-# poc1111 = Train(1111, "block55")
+trains = [
+    Train(1111, "block65", blocks),
+]
 
 running = True
 while running:
@@ -129,14 +131,18 @@ while running:
     screen.blit(kierunek_blokady_left, (1685,80))
     screen.blit(kierunek_blokady_right, (1685,150))
 
-    for triangle in sem:
+    for triangle in semaphores:
         triangle.draw()
 
     for block in blocks:
         block.draw(screen)
+        # To debug nazwy odcinków torowych
+        # text = font.render(f"{block.name}"[-3:], True, (255, 255, 255))
+        # screen.blit(text, ((block.left + 10), block.top - 10))
 
+    for train in trains:
+        train.update(blocks)
 
-    #print(poc1111.localisation)
 
     pygame.display.update()
 pygame.quit()
