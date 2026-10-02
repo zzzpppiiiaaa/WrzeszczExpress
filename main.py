@@ -2,7 +2,8 @@ import random
 import time
 import pygame
 from pygame.locals import *
-from train import *
+from train_class import Train
+from block_class import Block
 
 pygame.init()
 
@@ -41,20 +42,9 @@ class Triangle:
         text = font.render(self.name, True, (255, 214, 0))
         screen.blit(text, ((self.x1-10), self.y1 - 50))
 
-class Block:
-    def __init__(self, left, top, width, height, name):
-        self.left = left
-        self.top = top
-        self.width = width
-        self.height = height
-        self.name = name
-        self.state = "wolny" # / "zajęty"/ "przebieg"
-    def draw(self):
-        if self.state == "wolny": color = (102, 102, 102)
-        elif self.state == "przebieg": color = (0, 200, 130)
-        else: color =(237, 0, 0)
 
-        pygame.draw.rect(screen, color, pygame.Rect(self.left, self.top, self.width, self.height))
+
+
 
 semR501 = Triangle(277, 103, 15, "R501", left=False)
 semR502 = Triangle(277, 173, 15, "R502", left=False)
@@ -103,16 +93,16 @@ while running:
     semH501.draw()
     semH502.draw()
 
-    block55.draw()
-    block56.draw()
-    block57.draw()
-    block58.draw()
-    block59.draw()
-    block60.draw()
-    block61.draw()
-    block62.draw()
-    block63.draw()
-    block64.draw()
+    block55.draw(screen)
+    block56.draw(screen)
+    block57.draw(screen)
+    block58.draw(screen)
+    block59.draw(screen)
+    block60.draw(screen)
+    block61.draw(screen)
+    block62.draw(screen)
+    block63.draw(screen)
+    block64.draw(screen)
 
 
     poc1111.update()
