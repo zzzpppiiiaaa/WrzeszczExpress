@@ -42,21 +42,6 @@ class Triangle:
         text = font.render(self.name, True, (255, 214, 0))
         screen.blit(text, ((self.x1-10), self.y1 - 50))
 
-class Block:
-    def __init__(self, left, top, width, height, name):
-        self.left = left
-        self.top = top
-        self.width = width
-        self.height = height
-        self.name = name
-        self.state = "wolny" # / "zajęty"/ "przebieg"
-    def draw(self):
-        if self.state == "wolny": color = (102, 102, 102)
-        elif self.state == "przebieg": color = (0, 200, 130)
-        else: color =(237, 0, 0)
-
-        pygame.draw.rect(screen, color, pygame.Rect(self.left, self.top, self.width, self.height))
-
 semR501 = Triangle(277, 103, 15, "R501", left=False)
 semR502 = Triangle(277, 173, 15, "R502", left=False)
 semR501_2 = Triangle(285, 103, 12, "", left=True)
@@ -131,28 +116,28 @@ while running:
     semC501.draw()
     semC502.draw()
 
-    block55.draw()
-    block56.draw()
-    block57.draw()
-    block58.draw()
-    block59.draw()
-    block60.draw()
-    block161.draw()
-    block162.draw()
-    block163.draw()
-    block164.draw()
-    block65.draw()
-    block66.draw()
-    block67.draw()
-    block68.draw()
-    block69.draw()
-    block70.draw()
-    block71.draw()
-    block72.draw()
-    block173.draw()
-    block174.draw()
-    block175.draw()
-    block176.draw()
+    block55.draw(screen)
+    block56.draw(screen)
+    block57.draw(screen)
+    block58.draw(screen)
+    block59.draw(screen)
+    block60.draw(screen)
+    block161.draw(screen)
+    block162.draw(screen)
+    block163.draw(screen)
+    block164.draw(screen)
+    block65.draw(screen)
+    block66.draw(screen)
+    block67.draw(screen)
+    block68.draw(screen)
+    block69.draw(screen)
+    block70.draw(screen)
+    block71.draw(screen)
+    block72.draw(screen)
+    block173.draw(screen)
+    block174.draw(screen)
+    block175.draw(screen)
+    block176.draw(screen)
 
 
     poc1111.update()
