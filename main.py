@@ -2,8 +2,7 @@ import random
 import time
 import pygame
 from pygame.locals import *
-from train_class import Train
-from block_class import Block
+from train import *
 
 pygame.init()
 
@@ -42,9 +41,20 @@ class Triangle:
         text = font.render(self.name, True, (255, 214, 0))
         screen.blit(text, ((self.x1-10), self.y1 - 50))
 
+class Block:
+    def __init__(self, left, top, width, height, name):
+        self.left = left
+        self.top = top
+        self.width = width
+        self.height = height
+        self.name = name
+        self.state = "wolny" # / "zajęty"/ "przebieg"
+    def draw(self):
+        if self.state == "wolny": color = (102, 102, 102)
+        elif self.state == "przebieg": color = (0, 200, 130)
+        else: color =(237, 0, 0)
 
-
-
+        pygame.draw.rect(screen, color, pygame.Rect(self.left, self.top, self.width, self.height))
 
 semR501 = Triangle(277, 103, 15, "R501", left=False)
 semR502 = Triangle(277, 173, 15, "R502", left=False)
@@ -52,6 +62,12 @@ semR501_2 = Triangle(285, 103, 12, "", left=True)
 semR502_2 = Triangle(285, 173, 12, "", left=True)
 semH501 = Triangle(450, 103, 15, "H501", left=True)
 semH502 = Triangle(450, 173, 15, "H502", left=True)
+semB501 = Triangle(1665, 103, 15, "B501", left=True)
+semB502 = Triangle(1665, 173, 15, "B502", left=True)
+semB501_2 = Triangle(1660, 103, 12, "", left=False)
+semB502_2 = Triangle(1660, 173, 12, "", left=False)
+semC501 = Triangle(1430, 103, 15, "B501", left=False)
+semC502 = Triangle(1430, 173, 15, "B502", left=False)
 
 block55 = Block(10, 100, 60, 6, "block55")
 block56 = Block(75, 100, 60, 6, "block56")
@@ -59,10 +75,23 @@ block57 = Block(140, 100, 60, 6, "block57")
 block58 = Block(10, 170, 60, 6, "block58")
 block59 = Block(75, 170, 60, 6, "block59")
 block60 = Block(140, 170, 60, 6, "block60")  # Bloki Gdańsk Oliwa SKM
-block61 = Block(305, 100, 140, 6, "block61")
-block62 = Block(305, 170, 140, 6, "block62")
-block63 = Block(470, 100, 140, 6, "block63")
-block64 = Block(470, 170, 140, 6, "block64")
+block161 = Block(305, 100, 140, 6, "block161")
+block162 = Block(305, 170, 140, 6, "block162")
+block163 = Block(470, 100, 140, 6, "block163")
+block164 = Block(470, 170, 140, 6, "block164")
+block65 = Block(1870, 100, 40, 6, "block65")
+block66 = Block(1870, 170, 40, 6, "block66")
+block67 = Block(1825, 100, 40, 6, "block67")
+block68 = Block(1825, 170, 40, 6, "block68")
+block69 = Block(1780, 100, 40, 6, "block69")
+block70 = Block(1780, 170, 40, 6, "block70")
+block71 = Block(1735, 100, 40, 6, "block71")
+block72 = Block(1735, 170, 40, 6, "block72")
+block173 = Block(1435, 100, 200, 6, "block173")
+block174 = Block(1435, 170, 200, 6, "block174")
+block175 = Block(1280, 100, 120, 6, "block175")
+block176 = Block(1280, 170, 120, 6, "block176")
+
 
 poc1111 = Train(1111, "block1")
 
@@ -85,6 +114,8 @@ while running:
 
     screen.blit(kierunek_blokady_left, (205,80))
     screen.blit(kierunek_blokady_right, (205,150))
+    screen.blit(kierunek_blokady_left, (1685,80))
+    screen.blit(kierunek_blokady_right, (1685,150))
 
     semR501.draw()
     semR502.draw()
@@ -92,17 +123,35 @@ while running:
     semR502_2.draw()
     semH501.draw()
     semH502.draw()
+    semB501.draw()
+    semB502.draw()
+    semB501_2.draw()
+    semB502_2.draw()
+    semC501.draw()
+    semC502.draw()
 
-    block55.draw(screen)
-    block56.draw(screen)
-    block57.draw(screen)
-    block58.draw(screen)
-    block59.draw(screen)
-    block60.draw(screen)
-    block61.draw(screen)
-    block62.draw(screen)
-    block63.draw(screen)
-    block64.draw(screen)
+    block55.draw()
+    block56.draw()
+    block57.draw()
+    block58.draw()
+    block59.draw()
+    block60.draw()
+    block161.draw()
+    block162.draw()
+    block163.draw()
+    block164.draw()
+    block65.draw()
+    block66.draw()
+    block67.draw()
+    block68.draw()
+    block69.draw()
+    block70.draw()
+    block71.draw()
+    block72.draw()
+    block173.draw()
+    block174.draw()
+    block175.draw()
+    block176.draw()
 
 
     poc1111.update()
