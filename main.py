@@ -73,6 +73,15 @@ block61 = Block(305, 100, 140, 6, "block61")
 block62 = Block(305, 170, 140, 6, "block62")
 block63 = Block(470, 100, 140, 6, "block63")
 block64 = Block(470, 170, 140, 6, "block64")
+block65 = Block(1870, 100, 40, 6, "block65")
+block66 = Block(1870, 170, 40, 6, "block66")
+block67 = Block(1820, 100, 40, 6, "block67")
+block68 = Block(1820, 170, 40, 6, "block68")
+block69 = Block(1770, 100, 40, 6, "block69")
+block70 = Block(1770, 170, 40, 6, "block70")
+block71 = Block(1720, 100, 40, 6, "block71")
+block72 = Block(1720, 170, 40, 6, "block72")
+
 
 poc1111 = Train(1111, "block1")
 
@@ -113,6 +122,14 @@ while running:
     block62.draw()
     block63.draw()
     block64.draw()
+    block65.draw()
+    block66.draw()
+    block67.draw()
+    block68.draw()
+    block69.draw()
+    block70.draw()
+    block71.draw()
+    block72.draw()
 
 
     poc1111.update()
