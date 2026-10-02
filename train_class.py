@@ -23,6 +23,7 @@ class Train:
             self.route=["block22", "block23"] # Z PKM
             self.direction = "right"
 
+
     def move(self, block:"Block"):
         if self.location != self.route[-1]:
             self.location = self.route[1]
@@ -34,6 +35,7 @@ class Train:
             del self
         for i in range(55, 1000):
             temp_name = "block" + str(i)
+
             if self.location == temp_name and block.name == temp_name: block.state = "zajety"
 
 
@@ -44,7 +46,7 @@ class Train:
         if self.iswaiting: print("WAITING")
         self.clock += 1
         if self.location in ["block1", "block2", "block3", "block4", "block51" "block52", "block53", "block54", "block5", "block6", "block7", "block55", "block56", "block57", "block21", "block22", "block23"]:
-            if self.clock >= 1200:
+            if self.clock >= 120:
                 self.clock = 0
                 self.move()
         else:
