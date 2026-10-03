@@ -15,11 +15,11 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Wrzeszcz Express")
 pygame.display.set_icon(screen)
 clock = pygame.time.Clock()
-font = pygame.font.Font("Bahnschrift.ttf", 18)
+font = pygame.font.Font("assets/Bahnschrift.ttf", 18)
 
 #obrazki
-kierunek_blokady_left = pygame.image.load('kierunek blokadyv3.png')#rozmiar 45 na 35
-kierunek_blokady_right = pygame.image.load('kierunek blokady 2v3.png')
+kierunek_blokady_left = pygame.image.load('assets/kierunek blokadyv3.png')#rozmiar 45 na 35
+kierunek_blokady_right = pygame.image.load('assets/kierunek blokady 2v3.png')
 
 class Triangle:
     def __init__(self, x, y, scale, name, left=True):
@@ -106,7 +106,7 @@ blocks = [
 ]
 
 trains = [
-    Train(1111, "block65", blocks),
+    Train(123, "block55", blocks),
 ]
 
 running = True
@@ -139,6 +139,13 @@ while running:
         # To debug nazwy odcinków torowych
         # text = font.render(f"{block.name}"[-3:], True, (255, 255, 255))
         # screen.blit(text, ((block.left + 10), block.top - 10))
+        if block.state == "zajety":
+            for train in trains:
+                if train.location == block.name:
+                    font.set_bold(True)
+                    screen.blit(font.render(" "+ str(train.number)+" ", True, "white", "black"), (block.left + (len(str(train.number))*5)%block.width, block.top-6))
+                    font.set_bold(False)
+
 
     for train in trains:
         train.update(blocks)
