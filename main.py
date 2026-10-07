@@ -59,7 +59,16 @@ semaphores = [
     Triangle(1080, 173, 15, "G502", left=True),
     Triangle(875, 103, 15, "J502", left=False),
     Triangle(875, 173, 15, "J502", left=False),
-    #nie skm
+    # nie skm
+    Triangle(275, 300, 15, "L", left=False),
+    Triangle(275, 373, 15, "M", left=False),
+    Triangle(1670, 300, 15, "B", left=True),
+    Triangle(1670, 373, 15, "A", left=True),
+    Triangle(280, 303, 12, "", left=True),
+    Triangle(280, 373, 12, "", left=True),
+    Triangle(1665, 300, 12, "", left=False),
+    Triangle(1665, 373, 12, "", left=False),
+
 ]
 
 blocks = [
@@ -103,6 +112,11 @@ blocks = [
     Block(1780, 370, 40, 6, "block70"),
     Block(1735, 300, 40, 6, "block71"),
     Block(1735, 370, 40, 6, "block72"),
+    Block(300, 300, 550, 6, "block72"),
+    Block(300, 370, 550, 6, "block72"),
+
+    Block(300, 370, 550, 6, "block72"),
+    Block(300, 370, 550, 6, "block72"),
 ]
 
 trains = [
@@ -129,7 +143,11 @@ while running:
     screen.blit(kierunek_blokady_left, (205,80))
     screen.blit(kierunek_blokady_right, (205,150))
     screen.blit(kierunek_blokady_left, (1685,80))
-    screen.blit(kierunek_blokady_right, (1685,150))
+    screen.blit(kierunek_blokady_left, (1685,150))
+    screen.blit(kierunek_blokady_left, (1685,280))
+    screen.blit(kierunek_blokady_right, (1685,350))
+    screen.blit(kierunek_blokady_left, (205,280))
+    screen.blit(kierunek_blokady_right, (205,350))
 
     for triangle in semaphores:
         triangle.draw()
