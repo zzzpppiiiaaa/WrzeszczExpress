@@ -23,6 +23,9 @@ font = pygame.font.Font("assets/Bahnschrift.ttf", 18)
 #obrazki
 kierunek_blokady_left = pygame.image.load('assets/kierunek blokadyv3.png')#rozmiar 45 na 35
 kierunek_blokady_right = pygame.image.load('assets/kierunek blokady 2v3.png')
+semafor_right = pygame.image.load('assets/semafor.png')
+semafor_right = pygame.transform.flip(semafor_right, True, False)
+semafor_left = pygame.image.load('assets/semafor.png')
 
 class Triangle:
     def __init__(self, x, y, scale, name, left=True):
@@ -117,9 +120,9 @@ blocks = [
     Block(1735, 370, 40, 6, "block72"),
     Block(300, 300, 550, 6, "block72"),
     Block(300, 370, 550, 6, "block72"),
-
     Block(300, 370, 550, 6, "block72"),
-    Block(300, 370, 550, 6, "block72"),
+    Block(1490, 300, 150, 6, "block72"),
+    Block(1490, 370, 150, 6, "block72"),
 ]
 
 trains = [
@@ -241,6 +244,8 @@ while running:
     screen.blit(kierunek_blokady_right, (1685,350))
     screen.blit(kierunek_blokady_left, (205,280))
     screen.blit(kierunek_blokady_right, (205,350))
+    screen.blit(semafor_left, (855,292))
+    screen.blit(semafor_right, (855,363))
 
     for triangle in semaphores:
         triangle.draw()
