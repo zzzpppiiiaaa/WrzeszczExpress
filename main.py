@@ -11,6 +11,9 @@ SCREEN_WIDTH = 1920
 SCREEN_HEIGHT = 1020
 FPS = 60
 
+speed = 10
+spawn_timer = 0
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Wrzeszcz Express")
 pygame.display.set_icon(screen)
@@ -120,13 +123,100 @@ blocks = [
 ]
 
 trains = [
-    Train(123, "block55", blocks),
+    Train(123, "block55", blocks ,"Gdansk Glowny SKM"),
 ]
+
+
+
+TRAIN_CONFIG = {
+    "R": {
+        "weight": 2,  # Waga prawdopodobieństwa (odpowiednik dwukrotnego powtórzenia na liście)
+        "prefixes": ["55", "50", "59", "95", "96", "97"],
+        "num_range": (100, 999),
+        "routes": {
+            "Bretowo": "block65",
+            "Gdansk Glowny": "block5",
+            "Sopot": "block12",  # Uzupełnij właściwy blok
+        },
+    },
+    "SKM": {
+        "weight": 3,
+        "prefixes": ["59", "95"],
+        "num_range": (100, 999),
+        "routes": {
+            "Gdansk Glowny SKM": "block11",
+            "Gdansk Oliwa": "block14",  # Uzupełnij właściwy blok
+        },
+    },
+    "TLK": {
+        "weight": 1,
+        "num_range": (10000, 99999),
+        "routes": {
+            "Gdansk Glowny": "block5",
+            "Sopot": "block12",  # Uzupełnij właściwy blok
+        },
+    },
+    "IC": {
+        "weight": 1,
+        "num_range": (1000, 99999),
+        "routes": {
+            "Gdansk Glowny": "block5",
+            "Sopot": "block12",  # Uzupełnij właściwy blok
+        },
+    },
+    "EIP/EIC": {
+        "weight": 1,
+        "num_range": (1000, 9999),
+        "routes": {
+            "Gdansk Glowny": "block5",
+            "Sopot": "block12",  # Uzupełnij właściwy blok
+        },
+    },
+    "cargo": {
+        "weight": 1,
+        "num_range": (100000, 999999),
+        "routes": {
+            "Gdansk Glowny": "block5",
+            "Sopot": "block12",  # Uzupełnij właściwy blok
+        },
+    },
+}
+
+
+def _generate_train_number(cfg: dict) -> str:
+    """Pomocnicza funkcja generująca numer pociągu na podstawie konfiguracji."""
+    min_val, max_val = cfg["num_range"]
+    number_body = str(random.randint(min_val, max_val))
+
+    if "prefixes" in cfg:
+        return random.choice(cfg["prefixes"]) + number_body
+    return number_body
+
+
+def spawn_train(blocks):
+    """Generuje i zwraca nową instancję obiektu Train."""
+    # 1. Losowanie typu pociągu na podstawie wag z TRAIN_CONFIG
+    train_types = list(TRAIN_CONFIG.keys())
+    weights = [cfg["weight"] for cfg in TRAIN_CONFIG.values()]
+    train_type = random.choices(train_types, weights=weights, k=1)[0]
+
+    cfg = TRAIN_CONFIG[train_type]
+
+    # 2. Generowanie numeru pociągu
+    number = _generate_train_number(cfg)
+
+    # 3. Losowanie kierunku wraz z odpowiadającym mu blokiem
+    direction, place = random.choice(list(cfg["routes"].items()))
+
+    # 4. Zwrot gotowej instancji pociągu
+    return Train(number, place, blocks, direction)
+
 
 running = True
 while running:
     clock.tick(FPS)
     screen.fill((0, 0, 0))
+    spawn_timer += 1
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -139,6 +229,9 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
+
+    if spawn_timer >= 12000 / speed:
+        trains.append(spawn_train(blocks))
 
     screen.blit(kierunek_blokady_left, (205,80))
     screen.blit(kierunek_blokady_right, (205,150))

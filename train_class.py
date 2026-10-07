@@ -1,14 +1,15 @@
 from block_class import Block
 class Train:
     # Dodajemy argument 'blocks', aby pociąg mógł od razu zająć swój blok startowy
-    def __init__(self, number, localisation, blocks, route=None):
+    def __init__(self, number, localisation, blocks, direction, route=None):
         if route is None: self.route = []
         self.number = number
         self.location = localisation
         self.clock = 0
         self.iswaiting = False
+        self.direction = direction
 
-        if self.location == "block65":
+        if self.location == "block11":
             self.route = ["block67", "block69", "block71"]  # z Gdańska Głównego LK202
             self.direction = "left"
         elif self.location == "block65":
@@ -55,10 +56,10 @@ class Train:
     def update(self, blocks):
         if self.iswaiting: print("Waiting")
         self.clock += 1
-        szybkie_bloki = ["block1", "block2", "block3", "block4", "block51", "block52", "block53", "block54", "block5",
+        szlakowe_bloki = ["block1", "block2", "block3", "block4", "block51", "block52", "block53", "block54", "block5",
                          "block6", "block7", "block55", "block56", "block57", "block21", "block22", "block23"]
 
-        if self.location in szybkie_bloki:
+        if self.location in szlakowe_bloki:
             if self.clock >= 120:
                 self.clock = 0
                 self.move(blocks)
