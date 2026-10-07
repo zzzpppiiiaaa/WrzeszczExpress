@@ -28,7 +28,8 @@ semafor_right = pygame.transform.flip(semafor_right, True, False)
 semafor_left = pygame.image.load('assets/semafor.png')
 
 class Triangle:
-    def __init__(self, x, y, scale, name, left=True):
+    def __init__(self, x, y, scale, name, left=True, invisible=False):
+        self.invisible = invisible
         self.name = name
         self.x = x
         self.y = y
@@ -43,8 +44,9 @@ class Triangle:
             self.x2 = x - scale-7
             self.y2 = y - scale
 
+
     def draw(self):
-        pygame.draw.polygon(screen, (102, 102, 102), ((self.x, self.y), (self.x1, self.y1), (self.x2, self.y2)))
+        if not self.invisible: pygame.draw.polygon(screen, (102, 102, 102), ((self.x, self.y), (self.x1, self.y1), (self.x2, self.y2)))
         text = font.render(self.name, True, (255, 214, 0))
         screen.blit(text, ((self.x1-10), self.y1 - 50))
 semaphores = [
@@ -244,8 +246,8 @@ while running:
     screen.blit(kierunek_blokady_right, (1685,350))
     screen.blit(kierunek_blokady_left, (205,280))
     screen.blit(kierunek_blokady_right, (205,350))
-    screen.blit(semafor_left, (855,292))
-    screen.blit(semafor_right, (855,363))
+    screen.blit(semafor_left, (855,291))
+    screen.blit(semafor_right, (855,362))
 
     for triangle in semaphores:
         triangle.draw()
