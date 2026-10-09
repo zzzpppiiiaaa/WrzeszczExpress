@@ -46,9 +46,13 @@ class Triangle:
 
 
     def draw(self):
-        if not self.invisible: pygame.draw.polygon(screen, (102, 102, 102), ((self.x, self.y), (self.x1, self.y1), (self.x2, self.y2)))
+        if not self.invisible:
+            pygame.draw.polygon(screen, (102, 102, 102), ((self.x, self.y), (self.x1, self.y1), (self.x2, self.y2)))
         text = font.render(self.name, True, (255, 214, 0))
         screen.blit(text, ((self.x1-10), self.y1 - 50))
+
+
+
 semaphores = [
     #skm
     Triangle(277, 103, 15, "R501", left=False),
@@ -68,14 +72,22 @@ semaphores = [
     Triangle(875, 103, 15, "J502", left=False),
     Triangle(875, 173, 15, "J502", left=False),
     # nie skm
-    Triangle(275, 300, 15, "L", left=False),
-    Triangle(275, 373, 15, "M", left=False),
-    Triangle(1670, 300, 15, "B", left=True),
-    Triangle(1670, 373, 15, "A", left=True),
-    Triangle(280, 303, 12, "", left=True),
-    Triangle(280, 373, 12, "", left=True),
-    Triangle(1665, 300, 12, "", left=False),
-    Triangle(1665, 373, 12, "", left=False),
+    Triangle(275, 400, 15, "L", left=False),
+    Triangle(275, 473, 15, "M", left=False),
+    Triangle(1670, 400, 15, "B", left=True),
+    Triangle(1670, 473, 15, "A", left=True),
+    Triangle(280, 403, 12, "", left=True),
+    Triangle(280, 473, 12, "", left=True),
+    Triangle(1665, 400, 12, "", left=False),
+    Triangle(1665, 473, 12, "", left=False),
+    Triangle(880,415, 5, "K11", left=False, invisible=True),
+    Triangle(880, 485, 5, "K12", left=False, invisible=True),
+    Triangle(1480, 415, 5, "C1", left=False, invisible=True),
+    Triangle(1480, 485, 5, "C2", left=False, invisible=True),
+    Triangle(1300, 415, 5, "D1", left=False, invisible=True),
+    Triangle(1300, 485, 5, "D2", left=False, invisible=True),
+    Triangle(1190, 415, 5, "E11", left=False, invisible=True),
+    Triangle(1190, 485, 5, "E12", left=False, invisible=True),
 
 ]
 
@@ -106,25 +118,31 @@ blocks = [
     Block(885, 100, 190, 6, "block179"),
     Block(885, 170, 190, 6, "block180"),
     #nie skm
-    Block(10, 300, 60, 6, "block55"),
-    Block(75, 300, 60, 6, "block56"),
-    Block(140, 300, 60, 6, "block57"),
-    Block(10, 370, 60, 6, "block58"),
-    Block(75, 370, 60, 6, "block59"),
-    Block(140, 370, 60, 6, "block60"),
-    Block(1870, 300, 40, 6, "block65"),
-    Block(1870, 370, 40, 6, "block66"),
-    Block(1825, 300, 40, 6, "block67"),
-    Block(1825, 370, 40, 6, "block68"),
-    Block(1780, 300, 40, 6, "block69"),
-    Block(1780, 370, 40, 6, "block70"),
-    Block(1735, 300, 40, 6, "block71"),
-    Block(1735, 370, 40, 6, "block72"),
-    Block(300, 300, 550, 6, "block72"),
-    Block(300, 370, 550, 6, "block72"),
-    Block(300, 370, 550, 6, "block72"),
-    Block(1490, 300, 150, 6, "block72"),
-    Block(1490, 370, 150, 6, "block72"),
+    Block(10, 400, 60, 6, "block55"),
+    Block(75, 400, 60, 6, "block56"),
+    Block(140, 400, 60, 6, "block57"),
+    Block(10, 470, 60, 6, "block58"),
+    Block(75, 470, 60, 6, "block59"),
+    Block(140, 470, 60, 6, "block60"),
+    Block(1870, 400, 40, 6, "block65"),
+    Block(1870, 470, 40, 6, "block66"),
+    Block(1825, 400, 40, 6, "block67"),
+    Block(1825, 470, 40, 6, "block68"),
+    Block(1780, 400, 40, 6, "block69"),
+    Block(1780, 470, 40, 6, "block70"),
+    Block(1735, 400, 40, 6, "block71"),
+    Block(1735, 470, 40, 6, "block72"),
+    Block(300, 400, 550, 6, "block72"),
+    Block(300, 470, 550, 6, "block72"),
+    Block(300, 470, 550, 6, "block72"),
+    Block(1490, 400, 150, 6, "block72"),
+    Block(1490, 470, 150, 6, "block72"),
+    Block(1305, 400, 150, 6, "block72"),
+    Block(1305, 470, 150, 6, "block72"),
+    Block(1205, 400, 65, 6, "block72"),
+    Block(1205, 470, 65, 6, "block72"),
+    Block(885, 400, 285, 6, "block72"),
+    Block(885, 470, 285, 6, "block72"),
 ]
 
 trains = [
@@ -244,12 +262,18 @@ while running:
     screen.blit(kierunek_blokady_right, (205,150))
     screen.blit(kierunek_blokady_left, (1685,80))
     screen.blit(kierunek_blokady_left, (1685,150))
-    screen.blit(kierunek_blokady_left, (1685,280))
-    screen.blit(kierunek_blokady_right, (1685,350))
-    screen.blit(kierunek_blokady_left, (205,280))
-    screen.blit(kierunek_blokady_right, (205,350))
-    screen.blit(semafor_left, (855,291))
-    screen.blit(semafor_right, (855,362))
+    screen.blit(kierunek_blokady_left, (1685,380))
+    screen.blit(kierunek_blokady_right, (1685,450))
+    screen.blit(kierunek_blokady_left, (205,380))
+    screen.blit(kierunek_blokady_right, (205,450))
+    screen.blit(semafor_left, (855,391))
+    screen.blit(semafor_left, (855,462))
+    screen.blit(semafor_right, (1455,391))
+    screen.blit(semafor_right, (1455,462))
+    screen.blit(semafor_left, (1275,391))
+    screen.blit(semafor_left, (1275,462))
+    screen.blit(semafor_right, (1170,391))
+    screen.blit(semafor_right, (1170,462))
 
     table.update_draw(screen)
     for triangle in semaphores:
