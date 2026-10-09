@@ -150,16 +150,16 @@ trains = [
 ]
 
 
-
+# Konfiguracja pociągów z nazwiskami bloków obecnymi w Twojej tablicy `blocks`
 TRAIN_CONFIG = {
     "R": {
-        "weight": 2,  # Waga prawdopodobieństwa (odpowiednik dwukrotnego powtórzenia na liście)
+        "weight": 2,
         "prefixes": ["55", "50", "59", "95", "96", "97"],
         "num_range": (100, 999),
         "routes": {
             "Bretowo": "block65",
-            "Gdansk Glowny": "block5",
-            "Sopot": "block12",  # Uzupełnij właściwy blok
+            "Gdansk Glowny": "block58",
+            "Sopot": "block66",
         },
     },
     "SKM": {
@@ -167,75 +167,67 @@ TRAIN_CONFIG = {
         "prefixes": ["59", "95"],
         "num_range": (100, 999),
         "routes": {
-            "Gdansk Glowny SKM": "block11",
-            "Gdansk Oliwa": "block14",  # Uzupełnij właściwy blok
+            "Gdansk Glowny SKM": "block55",
+            "Gdansk Oliwa": "block58",
         },
     },
     "TLK": {
         "weight": 1,
         "num_range": (10000, 99999),
         "routes": {
-            "Gdansk Glowny": "block5",
-            "Sopot": "block12",  # Uzupełnij właściwy blok
+            "Gdansk Glowny": "block58",
+            "Sopot": "block65",
         },
     },
     "IC": {
         "weight": 1,
         "num_range": (1000, 99999),
         "routes": {
-            "Gdansk Glowny": "block5",
-            "Sopot": "block12",  # Uzupełnij właściwy blok
+            "Gdansk Glowny": "block58",
+            "Sopot": "block65",
         },
     },
     "EIP/EIC": {
         "weight": 1,
         "num_range": (1000, 9999),
         "routes": {
-            "Gdansk Glowny": "block5",
-            "Sopot": "block12",  # Uzupełnij właściwy blok
+            "Gdansk Glowny": "block58",
+            "Sopot": "block65",
         },
     },
     "cargo": {
         "weight": 1,
         "num_range": (100000, 999999),
         "routes": {
-            "Gdansk Glowny": "block5",
-            "Sopot": "block12",  # Uzupełnij właściwy blok
+            "Gdansk Glowny": "block58",
+            "Sopot": "block65",
         },
     },
 }
 
 
 def _generate_train_number(cfg: dict) -> str:
-    """Pomocnicza funkcja generująca numer pociągu na podstawie konfiguracji."""
     min_val, max_val = cfg["num_range"]
     number_body = str(random.randint(min_val, max_val))
-
     if "prefixes" in cfg:
         return random.choice(cfg["prefixes"]) + number_body
     return number_body
 
 
-def spawn_train(blocks):
-    """Generuje i zwraca nową instancję obiektu Train."""
-    # 1. Losowanie typu pociągu na podstawie wag z TRAIN_CONFIG
+def spawn_train(blocks, table):
     train_types = list(TRAIN_CONFIG.keys())
     weights = [cfg["weight"] for cfg in TRAIN_CONFIG.values()]
     train_type = random.choices(train_types, weights=weights, k=1)[0]
 
     cfg = TRAIN_CONFIG[train_type]
-
-    # 2. Generowanie numeru pociągu
     number = _generate_train_number(cfg)
-
-    # 3. Losowanie kierunku wraz z odpowiadającym mu blokiem
     direction, place = random.choice(list(cfg["routes"].items()))
 
-    # 4. Zwrot gotowej instancji pociągu
-    # table.add_train(number, place, direction)
+    # Dodanie wpisu do tabeli oraz utworzenie pociągu
+    table.add_train(number, place, direction)
     return Train(number, place, blocks, direction)
-
 table = Table()
+
 
 running = True
 while running:
@@ -256,7 +248,7 @@ while running:
                 running = False
 
     if spawn_timer >= 1200 / speed:
-        trains.append(spawn_train(blocks))
+        trains.append(spawn_train(blocks, table))
         spawn_timer = 0
 
     screen.blit(kierunek_blokady_left, (205,80))
