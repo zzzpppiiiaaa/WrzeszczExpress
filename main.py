@@ -4,7 +4,7 @@ import pygame
 from pygame.locals import *
 from train_class import Train
 from block_class import Block
-
+from table_class import Table
 pygame.init()
 
 SCREEN_WIDTH = 1920
@@ -12,7 +12,7 @@ SCREEN_HEIGHT = 1020
 FPS = 60
 
 speed = 10
-spawn_timer = 0
+spawn_timer = 1000
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Wrzeszcz Express")
@@ -216,6 +216,7 @@ def spawn_train(blocks):
     # 4. Zwrot gotowej instancji pociągu
     return Train(number, place, blocks, direction)
 
+table = Table()
 
 running = True
 while running:
@@ -235,8 +236,9 @@ while running:
             if event.key == pygame.K_ESCAPE:
                 running = False
 
-    if spawn_timer >= 12000 / speed:
+    if spawn_timer >= 1200 / speed:
         trains.append(spawn_train(blocks))
+        spawn_timer = 0
 
     screen.blit(kierunek_blokady_left, (205,80))
     screen.blit(kierunek_blokady_right, (205,150))
@@ -249,6 +251,7 @@ while running:
     screen.blit(semafor_left, (855,291))
     screen.blit(semafor_right, (855,362))
 
+    table.update_draw(screen)
     for triangle in semaphores:
         triangle.draw()
 

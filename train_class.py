@@ -54,7 +54,7 @@ class Train:
 
     # Do update przekazujemy 'blocks', żeby móc je podać dalej do 'move'
     def update(self, blocks):
-        if self.iswaiting: print("Waiting")
+        # if self.iswaiting: print("Waiting")
         self.clock += 1
         szlakowe_bloki = ["block1", "block2", "block3", "block4", "block51", "block52", "block53", "block54", "block5",
                          "block6", "block7", "block55", "block56", "block57", "block21", "block22", "block23"]
