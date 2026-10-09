@@ -143,6 +143,10 @@ blocks = [
     Block(1205, 470, 65, 6, "block72"),
     Block(885, 400, 285, 6, "block72"),
     Block(885, 470, 285, 6, "block72"),
+    Block(950, 250, 150, 6, "block72"),
+    Block(950, 320, 150, 6, "block72"),
+    Block(715, 250, 200, 6, "block72"),
+    Block(1135, 250, 50, 6, "block72"),
 ]
 
 trains = [
@@ -267,6 +271,13 @@ while running:
     screen.blit(semafor_left, (1275,462))
     screen.blit(semafor_right, (1170,391))
     screen.blit(semafor_right, (1170,462))
+    screen.blit(semafor_right, (1170,462))
+    screen.blit(semafor_right, (1170,462))
+    screen.blit(semafor_left, (920,242))
+    screen.blit(semafor_left, (920,312))
+    screen.blit(semafor_right, (1100,242))
+    screen.blit(semafor_right, (1100,312))
+    screen.blit(semafor_left, (1190,242))
 
     table.update_draw(screen)
     for triangle in semaphores:
