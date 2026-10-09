@@ -232,6 +232,7 @@ def spawn_train(blocks):
     direction, place = random.choice(list(cfg["routes"].items()))
 
     # 4. Zwrot gotowej instancji pociągu
+    # table.add_train(number, place, direction)
     return Train(number, place, blocks, direction)
 
 table = Table()
