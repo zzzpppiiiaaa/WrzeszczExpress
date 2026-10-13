@@ -1,6 +1,7 @@
 import pygame
 pygame.init()
 font = pygame.font.Font("assets/Bahnschrift.ttf", 18)
+title_font = pygame.font.SysFont("Calibri", 24)
 
 class Table:
     def __init__(self):
@@ -10,15 +11,17 @@ class Table:
 
     def update_draw(self, screen):
         pygame.draw.rect(screen, (255, 255, 170), pygame.Rect(self.x, self.y, 920, self.x))
+        text = title_font.render("  NR                    ZE STACJI                              NR LINI                   DO STACJI", True, "black")
+        screen.blit(text, (self.x, self.y+10))
         for train in self.trains:
             text_number = font.render(str(train[0]), True, "black")
             text_direction = font.render(train[2], True, "black")
             text_origin = font.render(train[3], True, "black")
             text_line_number = font.render(str(train[4]), True, "black")
-            screen.blit(text_number, (self.x, self.y + (train[5] * 20))) # numer
-            screen.blit(text_direction, (self.x + 100, self.y + (train[5] * 20))) # kierunek
-            screen.blit(text_line_number, (self.x + 400, self.y + (train[5] * 20))) # numer linii
-            screen.blit(text_origin, (self.x + 500, self.y + (train[5] * 20))) # z kąd
+            screen.blit(text_number, (self.x+10, self.y + (train[5] * 25 + 40))) # numer
+            screen.blit(text_direction, (self.x+10 + 500, self.y + (train[5] * 25+ 40))) # kierunek
+            screen.blit(text_line_number, (self.x+10 + 400, self.y + (train[5] * 25 +40))) # numer linii
+            screen.blit(text_origin, (self.x+ 10 + 100, self.y + (train[5] * 25 + 40))) # z kąd
 
 
     def add_train(self, number,location, direction):
