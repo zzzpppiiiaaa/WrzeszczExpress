@@ -13,6 +13,7 @@ FPS = 60
 
 speed = 1
 spawn_timer = 1000
+toleration = 100
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Wrzeszcz Express")
@@ -254,9 +255,9 @@ while running:
             if event.key == pygame.K_ESCAPE:
                 running = False
 
-    if spawn_timer >= 1200 / speed:
-        trains.append(spawn_train(blocks, table))
-        spawn_timer = 0
+    # if spawn_timer >= 1200 / speed:
+    #     trains.append(spawn_train(blocks, table))
+    #     spawn_timer = 0
 
     screen.blit(kierunek_blokady_left, (205,80))
     screen.blit(kierunek_blokady_right, (205,150))
@@ -302,6 +303,13 @@ while running:
                     screen.blit(font.render(" "+ str(train.number)+" ", True, "white", "black"), (block.left + (len(str(train.number))*5)%block.width, block.top-6))
                     font.set_bold(False)
 
+    # Pasek Tolerancji
+
+    for train in trains:
+        if train.iswaiting:
+            toleration += -0.3
+    pygame.draw.rect(screen, "orange", (50, 10, toleration * 18, 30))
+    pygame.draw.rect(screen, "blue", (50, 10, 1800, 30), width=2)
 
     pygame.display.update()
 pygame.quit()
