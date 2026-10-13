@@ -11,7 +11,7 @@ SCREEN_WIDTH = 1920
 SCREEN_HEIGHT = 1020
 FPS = 60
 
-speed = 10
+speed = 1
 spawn_timer = 1000
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -150,7 +150,7 @@ blocks = [
 ]
 
 trains = [
-    Train(123, "block55", blocks ,"Gdansk Glowny SKM"),
+
 ]
 
 
@@ -232,6 +232,9 @@ def spawn_train(blocks, table):
     return Train(number, place, blocks, direction)
 table = Table()
 
+# testowy pociąg
+trains.append(Train(123, "block65", blocks ,"Gdansk Glowny SKM"))
+table.add_train(123, "block65", "Gdansk Glowny SKM")
 
 running = True
 while running:
@@ -283,21 +286,21 @@ while running:
     for triangle in semaphores:
         triangle.draw()
 
+
+    for train in trains:
+        train.update(blocks)
+
+
     for block in blocks:
         block.draw(screen)
         # To debug nazwy odcinków torowych
-        # text = font.render(f"{block.name}"[-3:], True, (255, 255, 255))
-        # screen.blit(text, ((block.left + 10), block.top - 10))
+        screen.blit(font.render(f"{block.name}"[-3:], True, (255, 255, 255)), ((block.left + 10), block.top - 10))
         if block.state == "zajety":
             for train in trains:
                 if train.location == block.name:
                     font.set_bold(True)
                     screen.blit(font.render(" "+ str(train.number)+" ", True, "white", "black"), (block.left + (len(str(train.number))*5)%block.width, block.top-6))
                     font.set_bold(False)
-
-
-    for train in trains:
-        train.update(blocks)
 
 
     pygame.display.update()

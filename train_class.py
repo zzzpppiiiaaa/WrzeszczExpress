@@ -13,7 +13,7 @@ class Train:
             self.route = ["block67", "block69", "block71"]  # z Gdańska Głównego LK202
             self.direction = "left"
         elif self.location == "block65":
-            self.route = ["block67", "block53", "block54"]  # z Gdańska Głównego LK250 (SKM)
+            self.route = ["block67", "block69", "block71"]  # z Gdańska Głównego LK250 (SKM)
             self.direction = "left"
         elif self.location == "block5":
             self.route = ["block6", "block7"]  # Z Sopotu
