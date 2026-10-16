@@ -148,6 +148,16 @@ blocks = [
     Block(950, 320, 150, 6, "block72"),
     Block(715, 250, 200, 6, "block72"),
     Block(1135, 250, 50, 6, "block72"),
+    Block(1220, 250, 270, 6, "block72"),
+    Block(840, 320, 75, 6, "block72"),
+    Block(1135, 320, 75, 6, "block72"),
+    #nisze nie skm
+    Block(10, 600, 60, 6, "block55"),
+    Block(75, 600, 60, 6, "block56"),
+    Block(140, 600, 60, 6, "block57"),
+    Block(10, 670, 60, 6, "block58"),
+    Block(75, 670, 60, 6, "block59"),
+    Block(140, 670, 60, 6, "block60"),
 ]
 
 trains = [
@@ -267,6 +277,8 @@ while running:
     screen.blit(kierunek_blokady_right, (1685,450))
     screen.blit(kierunek_blokady_left, (205,380))
     screen.blit(kierunek_blokady_right, (205,450))
+    screen.blit(kierunek_blokady_left, (205,580))
+    screen.blit(kierunek_blokady_right, (205,650))
     screen.blit(semafor_left, (855,391))
     screen.blit(semafor_left, (855,462))
     screen.blit(semafor_right, (1455,391))
