@@ -202,7 +202,7 @@ TRAIN_CONFIG = {
     "R": {
         "weight": 2,
         "prefixes": ["55", "50", "59", "95", "96", "97"],
-        "num_range": (100, 999),
+        "num_range": (1000, 9999),
         "routes": {
             "Bretowo": "block65",
             "Gdansk Glowny": "block58",
