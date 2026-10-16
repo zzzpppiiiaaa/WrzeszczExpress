@@ -6,7 +6,7 @@ title_font = pygame.font.SysFont("Calibri", 24)
 class Table:
     def __init__(self):
         self.x = 1200
-        self.y = 700
+        self.y = 800
         self.trains = []
 
     def update_draw(self, screen):

@@ -97,6 +97,13 @@ semaphores = [
     Triangle(1300, 485, 5, "D2", left=False, invisible=True),
     Triangle(1190, 415, 5, "E11", left=False, invisible=True),
     Triangle(1190, 485, 5, "E12", left=False, invisible=True),
+    #pod nie skm
+    Triangle(275, 600, 15, "O", left=False, invisible=False),
+    Triangle(275, 673, 15, "P", left=False, invisible=False),
+    Triangle(280, 600, 12, "", left=True, invisible=False),
+    Triangle(280, 673, 12, "", left=True, invisible=False),
+    Triangle(345, 600, 15, "Y", left=True, invisible=False),
+    Triangle(345, 673, 15, "X", left=True, invisible=False),
 
 ]
 
@@ -166,6 +173,10 @@ blocks = [
     Block(10, 670, 60, 6, "block58"),
     Block(75, 670, 60, 6, "block59"),
     Block(140, 670, 60, 6, "block60"),
+    Block(300, 600, 40, 6, "block60"),
+    Block(300, 670, 40, 6, "block60"),
+    Block(360, 600, 300, 6, "block60"),
+    Block(360, 670, 600, 6, "block60"),
 ]
 
 trains = [
@@ -317,6 +328,7 @@ while running:
     screen.blit(semafor_right, (1100,242))
     screen.blit(semafor_right, (1100,312))
     screen.blit(semafor_left, (1190,242))
+    screen.blit(semafor_left, (965,662))
 
     table.update_draw(screen)
     for triangle in semaphores:
