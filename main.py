@@ -52,6 +52,14 @@ class Triangle:
         text = font.render(self.name, True, (255, 214, 0))
         screen.blit(text, ((self.x1-10), self.y1 - 50))
 
+    def is_clicked(self, mx, my):
+        min_x = min(self.x, self.x1, self.x2)
+        max_x = max(self.x, self.x1, self.x2)
+        min_y = min(self.y, self.y1, self.y2)
+        max_y = max(self.y, self.y1, self.y2)
+
+        return min_x <= mx <= max_x and min_y <= my <= max_y
+
 
 
 semaphores = [
@@ -247,6 +255,11 @@ table = Table()
 trains.append(Train(123, "block65", blocks ,"Gdansk Glowny SKM"))
 table.add_train(123, "block65", "Gdansk Glowny SKM")
 
+clicked_semaphores = []
+def przebieg(sem1, sem2):
+    print(f"Przebieg z {sem1} do {sem2}")
+
+
 running = True
 while running:
     clock.tick(FPS)
@@ -257,17 +270,27 @@ while running:
         if event.type == QUIT:
             running = False
 
-        if event.type == MOUSEBUTTONDOWN:
-            x, y = pygame.mouse.get_pos()
-            print(x, y)
-
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
 
-    # if spawn_timer >= 1200 / speed:
-    #     trains.append(spawn_train(blocks, table))
-    #     spawn_timer = 0
+        #Klikanie myszką
+        if event.type == MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            for semaphore in semaphores:
+                if semaphore.is_clicked(mouse_x, mouse_y):
+                    print(semaphore.name)
+                    clicked_semaphores.append(semaphore.name)
+
+
+    if len(clicked_semaphores) > 2:
+        clicked_semaphores = []
+    elif len(clicked_semaphores) == 2:
+        przebieg(clicked_semaphores[0], clicked_semaphores[1])
+        clicked_semaphores = []
+
+    if spawn_timer % 3600/ speed == 0:
+        trains.append(spawn_train(blocks, table))
 
     screen.blit(kierunek_blokady_left, (205,80))
     screen.blit(kierunek_blokady_right, (205,150))
@@ -316,7 +339,6 @@ while running:
                     font.set_bold(False)
 
     # Pasek Tolerancji
-
     for train in trains:
         if train.iswaiting:
             toleration += -0.3
