@@ -29,7 +29,8 @@ semafor_right = pygame.transform.flip(semafor_right, True, False)
 semafor_left = pygame.image.load('assets/semafor.png')
 
 class Triangle:
-    def __init__(self, x, y, scale, name, left=True, invisible=False):
+    def __init__(self, x, y, scale, name, left=True, invisible=False, exit = False):
+        self.exit = exit
         self.invisible = invisible
         self.name = name
         self.x = x
@@ -49,8 +50,10 @@ class Triangle:
     def draw(self):
         if not self.invisible:
             pygame.draw.polygon(screen, (102, 102, 102), ((self.x, self.y), (self.x1, self.y1), (self.x2, self.y2)))
-        text = font.render(self.name, True, (255, 214, 0))
-        screen.blit(text, ((self.x1-10), self.y1 - 50))
+        if not self.exit:
+            text = font.render(self.name, True, (255, 214, 0))
+            screen.blit(text, ((self.x1-10), self.y1 - 50))
+
 
     def is_clicked(self, mx, my):
         min_x = min(self.x, self.x1, self.x2)
@@ -66,14 +69,14 @@ semaphores = [
     #skm
     Triangle(277, 103, 15, "R501", left=False),
     Triangle(277, 173, 15, "R502", left=False),
-    Triangle(285, 103, 12, "", left=True),
-    Triangle(285, 173, 12, "", left=True),
+    Triangle(285, 103, 12, "exR501", left=True, exit=True),
+    Triangle(285, 173, 12, "exR502", left=True, exit=True),
     Triangle(450, 103, 15, "H501", left=True),
     Triangle(450, 173, 15, "H502", left=True),
     Triangle(1665, 103, 15, "B501", left=True),
     Triangle(1665, 173, 15, "B502", left=True),
-    Triangle(1660, 103, 12, "", left=False),
-    Triangle(1660, 173, 12, "", left=False),
+    Triangle(1660, 103, 12, "exB501", left=False, exit=True),
+    Triangle(1660, 173, 12, "exB502", left=False, exit=True),
     Triangle(1430, 103, 15, "C501", left=False),
     Triangle(1430, 173, 15, "C502", left=False),
     Triangle(1080, 103, 15, "G501", left=True),
@@ -277,7 +280,7 @@ def przebieg(sem1, sem2):
     print(f"Przebieg z {sem1} do {sem2}")
     przebieg = sem1+sem2
 
-
+    #SKM w prawo
     if przebieg == "R501J501":
         for block in blocks:
             if block.name in ["block161", "block163"]:
@@ -298,6 +301,56 @@ def przebieg(sem1, sem2):
     if przebieg == "J502C502":
         for block in blocks:
             if block.name in ["block180", "block178"]:
+                if block.state == "wolny":
+                    block.state = "przebieg"
+
+    if przebieg == "C501exB501":
+        for block in blocks:
+            if block.name in ["block173"]:
+                if block.state == "wolny":
+                    block.state = "przebieg"
+
+    if przebieg == "C502exB502":
+        for block in blocks:
+            if block.name in ["block174"]:
+                if block.state == "wolny":
+                    block.state = "przebieg"
+    #SKM w lewo
+    if przebieg == "B501G501":
+        for block in blocks:
+            if block.name in ["block173", "block177"]:
+                if block.state == "wolny":
+                    block.state = "przebieg"
+
+    if przebieg == "B502G502":
+        for block in blocks:
+            if block.name in ["block174", "block178"]:
+                if block.state == "wolny":
+                    block.state = "przebieg"
+
+    if przebieg == "G501H501":
+        for block in blocks:
+            if block.name in ["block179", "block163"]:
+                if block.state == "wolny":
+                    block.state = "przebieg"
+
+    if przebieg == "G502H502":
+        for block in blocks:
+            if block.name in ["block180", "block164"]:
+                if block.state == "wolny":
+                    block.state = "przebieg"
+
+
+    if przebieg == "H501exR501":
+        for block in blocks:
+            if block.name in ["block161"]:
+                if block.state == "wolny":
+                    block.state = "przebieg"
+
+
+    if przebieg == "H502exR502":
+        for block in blocks:
+            if block.name in ["block162"]:
                 if block.state == "wolny":
                     block.state = "przebieg"
 
