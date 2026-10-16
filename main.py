@@ -74,11 +74,11 @@ semaphores = [
     Triangle(1665, 173, 15, "B502", left=True),
     Triangle(1660, 103, 12, "", left=False),
     Triangle(1660, 173, 12, "", left=False),
-    Triangle(1430, 103, 15, "B501", left=False),
-    Triangle(1430, 173, 15, "B502", left=False),
+    Triangle(1430, 103, 15, "C501", left=False),
+    Triangle(1430, 173, 15, "C502", left=False),
     Triangle(1080, 103, 15, "G501", left=True),
     Triangle(1080, 173, 15, "G502", left=True),
-    Triangle(875, 103, 15, "J502", left=False),
+    Triangle(875, 103, 15, "J501", left=False),
     Triangle(875, 173, 15, "J502", left=False),
     # nie skm
     Triangle(275, 400, 15, "L", left=False),
@@ -269,6 +269,31 @@ table.add_train(123, "block65", "Gdansk Glowny SKM")
 clicked_semaphores = []
 def przebieg(sem1, sem2):
     print(f"Przebieg z {sem1} do {sem2}")
+    przebieg = sem1+sem2
+
+
+    if przebieg == "R501J501":
+        for block in blocks:
+            if block.name in ["block161", "block163"]:
+                if block.state == "wolny":
+                    block.state = "przebieg"
+    if przebieg == "R502J502":
+        for block in blocks:
+            if block.name in ["block162", "block164"]:
+                if block.state == "wolny":
+                    block.state = "przebieg"
+
+    if przebieg == "J501C501":
+        for block in blocks:
+            if block.name in ["block179", "block177"]:
+                if block.state == "wolny":
+                    block.state = "przebieg"
+
+    if przebieg == "J502C502":
+        for block in blocks:
+            if block.name in ["block180", "block178"]:
+                if block.state == "wolny":
+                    block.state = "przebieg"
 
 
 running = True
@@ -290,7 +315,6 @@ while running:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             for semaphore in semaphores:
                 if semaphore.is_clicked(mouse_x, mouse_y):
-                    print(semaphore.name)
                     clicked_semaphores.append(semaphore.name)
 
 
