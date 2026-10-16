@@ -27,6 +27,10 @@ kierunek_blokady_right = pygame.image.load('assets/kierunek blokady 2v3.png')
 semafor_right = pygame.image.load('assets/semafor.png')
 semafor_right = pygame.transform.flip(semafor_right, True, False)
 semafor_left = pygame.image.load('assets/semafor.png')
+rozjazd_right = pygame.image.load('assets/rozjazd w prawo.png')
+rozjazd_left = pygame.image.load('assets/rozjazd w prawo.png')
+rozjazd_left = pygame.transform.flip(rozjazd_left, True, False)
+
 
 class Triangle:
     def __init__(self, x, y, scale, name, left=True, invisible=False, exit = False):
@@ -417,6 +421,10 @@ while running:
     screen.blit(semafor_right, (1440,662))
     screen.blit(semafor_left, (900,532))
     screen.blit(semafor_right, (1130,532))
+    screen.blit(rozjazd_left, (1000,117))
+    screen.blit(rozjazd_right, (370,117))
+    screen.blit(rozjazd_left, (1550,117))
+    screen.blit(rozjazd_right, (1500,117))
 
     table.update_draw(screen)
     for triangle in semaphores:
