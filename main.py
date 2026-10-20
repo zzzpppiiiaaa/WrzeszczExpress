@@ -1,5 +1,4 @@
 import random
-import time
 import pygame
 from pygame.locals import *
 from train_class import Train
@@ -22,11 +21,11 @@ clock = pygame.time.Clock()
 font = pygame.font.Font("assets/Bahnschrift.ttf", 18)
 
 #obrazki
-kierunek_blokady_left = pygame.image.load('assets/kierunek blokadyv3.png')#rozmiar 45 na 35
-kierunek_blokady_right = pygame.image.load('assets/kierunek blokady 2v3.png')
-semafor_right = pygame.image.load('assets/semafor.png')
+kierunek_blokady_left = pygame.image.load('assets/blokada w lewo.png')#rozmiar 45 na 35
+kierunek_blokady_right = pygame.image.load('assets/blokada w prawo.png')
+semafor_right = pygame.image.load('assets/semafor duzy w lewo.png')
 semafor_right = pygame.transform.flip(semafor_right, True, False)
-semafor_left = pygame.image.load('assets/semafor.png')
+semafor_left = pygame.image.load('assets/semafor duzy w lewo.png')
 rozjazd_right = pygame.image.load('assets/rozjazd w prawo.png')
 rozjazd_left = pygame.image.load('assets/rozjazd w prawo.png')
 rozjazd_left = pygame.transform.flip(rozjazd_left, True, False)

@@ -11,7 +11,12 @@ class Block:
         self.name = name
         self.state = "wolny" # / "zajety"/ "przebieg"
     def draw(self, screen):
-        if self.state == "wolny": color = (102, 102, 102)
-        elif self.state == "przebieg": color = (0, 200, 130)
-        else: color =(237, 0, 0)
-        pygame.draw.rect(screen, color, pygame.Rect(self.left, self.top, self.width, self.height))
+        if self.state == "wolny":
+            color = (102, 102, 102)
+            pygame.draw.rect(screen, color, pygame.Rect(self.left, self.top, self.width, self.height))
+        elif self.state == "przebieg":
+            color = (0, 200, 130)
+            pygame.draw.rect(screen, color, pygame.Rect(self.left+4, self.top, self.width, self.height+2))
+        else:
+            color =(237, 0, 0)
+            pygame.draw.rect(screen, color, pygame.Rect(self.left+4, self.top, self.width, self.height+2))
