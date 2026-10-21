@@ -1,5 +1,6 @@
 import pygame
 pygame.init()
+font = pygame.font.Font("assets/Bahnschrift.ttf", 18)
 class Triangle:
     def __init__(self, x, y, scale, name, left=True, invisible=False, exit = False):
         self.color = (102, 102, 102)
@@ -21,7 +22,7 @@ class Triangle:
             self.y2 = y - scale
 
 
-    def draw(self):
+    def draw(self, screen):
         if self.state == "default" : self.color = (102, 102, 102) #gray
         if self.state == "allow" : self.color = (0, 200, 130) #green
         if self.state == "deny": self.color = (237, 0, 0) #red

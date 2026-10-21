@@ -430,7 +430,7 @@ while running:
 
     table.update_draw(screen)
     for triangle in semaphores:
-        triangle.draw()
+        triangle.draw(screen)
 
 
     for train in trains:
