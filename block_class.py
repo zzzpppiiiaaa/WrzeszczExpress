@@ -16,7 +16,7 @@ class Block:
             pygame.draw.rect(screen, color, pygame.Rect(self.left, self.top, self.width, self.height))
         elif self.state == "przebieg":
             color = (0, 200, 130)
-            pygame.draw.rect(screen, color, pygame.Rect(self.left+4, self.top, self.width, self.height+2))
+            pygame.draw.rect(screen, color, pygame.Rect(self.left+4, self.top, self.width-5, self.height+2))
         else:
             color =(237, 0, 0)
             pygame.draw.rect(screen, color, pygame.Rect(self.left+4, self.top, self.width, self.height+2))
