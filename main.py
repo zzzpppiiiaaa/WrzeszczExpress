@@ -5,6 +5,7 @@ from train_class import Train
 from block_class import Block
 from table_class import Table
 from triangle_class import Triangle
+from rozjady_class import Rozjazd
 pygame.init()
 
 SCREEN_WIDTH = 1920
@@ -30,9 +31,6 @@ semafor_left = pygame.image.load('assets/semafor duzy w lewo.png')
 rozjazd_right = pygame.image.load('assets/rozjazd w prawo.png')
 rozjazd_left = pygame.image.load('assets/rozjazd w prawo.png')
 rozjazd_left = pygame.transform.flip(rozjazd_left, True, False)
-
-
-
 
 
 semaphores = [
@@ -156,6 +154,13 @@ blocks = [
     Block(930, 540, 200, 6, "block60"),
     Block(1165, 540, 60, 6, "block60"),
     Block(835, 540, 60, 6, "block60"),
+]
+
+rozjady = [
+    Rozjazd(500, 117, 10, 10, right=True),
+    Rozjazd(1550, 112, 12, 55, right=False),
+    Rozjazd(1500, 112, 12, 55, right=True),
+
 ]
 
 trains = [
@@ -426,10 +431,6 @@ while running:
     screen.blit(semafor_right, (1440,662))
     screen.blit(semafor_left, (900,532))
     screen.blit(semafor_right, (1130,532))
-    screen.blit(rozjazd_left, (1000,117))
-    screen.blit(rozjazd_right, (370,117))
-    screen.blit(rozjazd_left, (1550,117))
-    screen.blit(rozjazd_right, (1500,117))
 
     table.update_draw(screen)
     for triangle in semaphores:
@@ -438,6 +439,9 @@ while running:
 
     for train in trains:
         train.update(blocks)
+
+    for rozjazd in rozjady:
+        rozjazd.draw(screen)
 
 
     for block in blocks:
