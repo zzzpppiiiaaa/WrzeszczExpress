@@ -234,6 +234,9 @@ def spawn_train(blocks, table):
 
     cfg = TRAIN_CONFIG[train_type]
     number = _generate_train_number(cfg)
+    for train in trains:
+        if number in train.number:
+            number = _generate_train_number(cfg)
     direction, place = random.choice(list(cfg["routes"].items()))
 
     # Dodanie wpisu do tabeli oraz utworzenie pociągu

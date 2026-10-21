@@ -13,16 +13,19 @@ class Table:
         pygame.draw.rect(screen, (255, 255, 170), pygame.Rect(self.x, self.y, 920, self.x))
         text = title_font.render("  NR                    ZE STACJI                              NR LINI                   DO STACJI", True, "black")
         screen.blit(text, (self.x, self.y+10))
-        for train in self.trains:
+        for i, train in enumerate(self.trains):
+            row_y = self.y + 40 + (i * 25)
+
             text_number = font.render(str(train[0]), True, "black")
-            text_direction = font.render(train[2], True, "black")
             text_origin = font.render(train[3], True, "black")
             text_line_number = font.render(str(train[4]), True, "black")
-            screen.blit(text_number, (self.x+10, self.y + (train[5] * 25 + 40))) # numer
-            screen.blit(text_direction, (self.x+10 + 500, self.y + (train[5] * 25+ 40))) # kierunek
-            screen.blit(text_line_number, (self.x+10 + 400, self.y + (train[5] * 25 +40))) # numer linii
-            screen.blit(text_origin, (self.x+ 10 + 100, self.y + (train[5] * 25 + 40))) # z kąd
+            text_direction = font.render(train[2], True, "black")
 
+            # Wyświetlanie w kolumnach
+            screen.blit(text_number, (self.x + 10, row_y))
+            screen.blit(text_origin, (self.x + 80, row_y))
+            screen.blit(text_line_number, (self.x + 380, row_y))
+            screen.blit(text_direction, (self.x + 500, row_y))
 
     def add_train(self, number,location, direction):
         id = 0
@@ -41,3 +44,6 @@ class Table:
             line = 250
 
         self.trains.append([number, location, direction, origin, line, id])
+
+    def del_train(self, number):
+        self.trains.pop(number)
