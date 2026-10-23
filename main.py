@@ -171,7 +171,7 @@ trains = [
 # Konfiguracja pociągów z nazwiskami bloków obecnymi w Twojej tablicy `blocks`
 TRAIN_CONFIG = {
     "R": {
-        "weight": 2,
+        "weight": 0,
         "prefixes": ["55", "50", "59", "95", "96", "97"],
         "num_range": (1000, 9999),
         "routes": {
@@ -181,16 +181,16 @@ TRAIN_CONFIG = {
         },
     },
     "SKM": {
-        "weight": 3,
+        "weight": 100,
         "prefixes": ["59", "95"],
         "num_range": (100, 999),
         "routes": {
-            "Gdansk Glowny SKM": "block55",
+            "Gdansk Glowny SKM": "block65",
             "Gdansk Oliwa": "block58",
         },
     },
     "TLK": {
-        "weight": 1,
+        "weight": 0,
         "num_range": (10000, 99999),
         "routes": {
             "Gdansk Glowny": "block58",
@@ -198,7 +198,7 @@ TRAIN_CONFIG = {
         },
     },
     "IC": {
-        "weight": 1,
+        "weight": 0,
         "num_range": (1000, 99999),
         "routes": {
             "Gdansk Glowny": "block58",
@@ -206,7 +206,7 @@ TRAIN_CONFIG = {
         },
     },
     "EIP/EIC": {
-        "weight": 1,
+        "weight": 0,
         "num_range": (1000, 9999),
         "routes": {
             "Gdansk Glowny": "block58",
@@ -214,7 +214,7 @@ TRAIN_CONFIG = {
         },
     },
     "cargo": {
-        "weight": 1,
+        "weight": 0,
         "num_range": (100000, 999999),
         "routes": {
             "Gdansk Glowny": "block58",
@@ -244,14 +244,18 @@ def spawn_train(blocks, table):
             number = _generate_train_number(cfg)
     direction, place = random.choice(list(cfg["routes"].items()))
 
+    track_stop = ""
+    if direction == "Gdansk Glowny SKM": track_stop = 502
+    if direction == "Gdansk Oliwa": track_stop = 501
+
     # Dodanie wpisu do tabeli oraz utworzenie pociągu
-    table.add_train(number, place, direction)
-    return Train(number, place, blocks, direction)
+    table.add_train(number, place, direction, track_stop)
+    return Train(number, place, blocks, direction, track_stop)
 table = Table()
 
 # testowy pociąg
-trains.append(Train(123, "block65", blocks ,"Gdansk Glowny SKM"))
-table.add_train(123, "block65", "Gdansk Glowny SKM")
+trains.append(Train(123, "block65", blocks ,"Gdansk Glowny SKM", 501))
+table.add_train(123, "block65", "Gdansk Glowny SKM", 501)
 
 clicked_semaphores = []
 def przebieg(sem1, sem2, semaphores):
@@ -373,7 +377,7 @@ running = True
 while running:
     clock.tick(FPS)
     screen.fill((0, 0, 0))
-    spawn_timer += 1
+    spawn_timer += speed
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -397,7 +401,7 @@ while running:
         przebieg(clicked_semaphores[0], clicked_semaphores[1], semaphores)
         clicked_semaphores = []
 
-    if spawn_timer % 3600/ speed == 0:
+    if speed > 0 and spawn_timer % (300 // speed) == 0:
         trains.append(spawn_train(blocks, table))
 
     screen.blit(kierunek_blokady_left, (205,80))
