@@ -156,7 +156,7 @@ blocks = [
     Block(835, 540, 60, 6, "block60"),
 ]
 
-rozjady = [
+rozjazdy = [
     Rozjazd(500, 117, 10, 10, right=True),
     Rozjazd(1550, 112, 12, 55, right=False),
     Rozjazd(1500, 112, 12, 55, right=True),
@@ -240,7 +240,7 @@ def spawn_train(blocks, table):
     cfg = TRAIN_CONFIG[train_type]
     number = _generate_train_number(cfg)
     for train in trains:
-        if number in train.number:
+        if number == train.number:
             number = _generate_train_number(cfg)
     direction, place = random.choice(list(cfg["routes"].items()))
 
@@ -440,7 +440,7 @@ while running:
     for train in trains:
         train.update(blocks)
 
-    for rozjazd in rozjady:
+    for rozjazd in rozjazdy:
         rozjazd.draw(screen)
 
 
