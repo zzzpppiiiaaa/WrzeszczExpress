@@ -1,4 +1,6 @@
 import random
+from threading import Semaphore
+
 import pygame
 from pygame.locals import *
 from train_class import Train
@@ -169,6 +171,7 @@ rozjazdy = [
     Rozjazd(550, 610, 12, 55, right=True),
     Rozjazd(650, 610, 12, 55, right=False),
     Rozjazd(697, 564, 12, 45, right=True),
+    Rozjazd(697, 224, 12, 45, right=True),
 
 ]
 
@@ -267,27 +270,41 @@ trains.append(Train(123, "block65", blocks ,"Gdansk Glowny SKM", 501))
 table.add_train(123, "block65", "Gdansk Glowny SKM", 501)
 
 clicked_semaphores = []
-def przebieg(sem1, sem2, semaphores):
+
+przebiegi = {
+    "R501J501": {
+        "blocks_block": ["block161", "block163"],
+        "semaphore_block": ["H501", "G501", "J501"],
+        "semaphore_allow": ["R501"]
+    },
+    "R502J502": {
+        "blocks_block": ["block162", "block164"],
+        "semaphore_block": ["H502", "J502"],
+        "semaphore_allow": ["R502"]
+    }
+}
+
+def do_semaphore(sblock: list[str], sallow: list[str], bblock: list[str]):
+    for semaphore in semaphores:
+        if semaphore.name in sblock:
+            if semaphore.state == "default": semaphore.state = "deny"
+        if semaphore.name in sallow:
+            semaphore.state = "allow"
+    for block in blocks:
+        if block.name in bblock:
+            if block.state == "wolny":
+                block.state = "przebieg"
+
+
+def przebieg(sem1, sem2):
     print(f"Przebieg z {sem1} do {sem2}")
     przebieg = sem1+sem2
 
     #SKM w prawo
-    if przebieg == "R501J501":
-        for semaphore in semaphores:
-            if semaphore.name in ["H501", "G501", "J501"]: semaphore.state = "deny"
-            if semaphore.name in ["R501"]: semaphore.state = "allow"
-        for block in blocks:
-            if block.name in ["block161", "block163"]:
-                if block.state == "wolny":
-                    block.state = "przebieg"
-    elif przebieg == "R502J502":
-        for semaphore in semaphores:
-            if semaphore.name in ["H502", "J502"]: semaphore.state = "deny"
-            if semaphore.name in ["R502"]: semaphore.state = "allow"
-        for block in blocks:
-            if block.name in ["block162", "block164"]:
-                if block.state == "wolny":
-                    block.state = "przebieg"
+
+    if przebieg in przebiegi:
+        p_info = przebiegi[przebieg]
+        do_semaphore(p_info["semaphore_block"], p_info["semaphore_allow"], p_info["blocks_block"])
 
     elif przebieg == "J501C501":
         for semaphore in semaphores:
@@ -380,7 +397,8 @@ def przebieg(sem1, sem2, semaphores):
             if block.name in ["block162"]:
                 if block.state == "wolny":
                     block.state = "przebieg"
-
+    else:
+        clicked_semaphores.clear()
 
 running = True
 while running:
@@ -407,7 +425,7 @@ while running:
     if len(clicked_semaphores) > 2:
         clicked_semaphores = []
     elif len(clicked_semaphores) == 2:
-        przebieg(clicked_semaphores[0], clicked_semaphores[1], semaphores)
+        przebieg(clicked_semaphores[0], clicked_semaphores[1])
         clicked_semaphores = []
 
     if speed > 0 and spawn_timer % (3000 // speed) == 0:
