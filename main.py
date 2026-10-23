@@ -401,7 +401,7 @@ while running:
         przebieg(clicked_semaphores[0], clicked_semaphores[1], semaphores)
         clicked_semaphores = []
 
-    if speed > 0 and spawn_timer % (300 // speed) == 0:
+    if speed > 0 and spawn_timer % (3000 // speed) == 0:
         trains.append(spawn_train(blocks, table))
 
     screen.blit(kierunek_blokady_left, (205,80))
