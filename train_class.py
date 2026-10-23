@@ -1,12 +1,13 @@
 from block_class import Block
 class Train:
-    def __init__(self, number, localisation, blocks, direction, route=None):
+    def __init__(self, number, localisation, blocks, direction, track_stop, route=None):
         if route is None: self.route = []
         self.number = number
         self.location = localisation
         self.clock = 0
         self.iswaiting = False
         self.direction = direction
+        self.track_stop = track_stop
 
         if self.location == "block11":
             self.route = ["block67", "block69", "block71"]  # z Gdańska Głównego LK202
@@ -17,8 +18,8 @@ class Train:
         elif self.location == "block5":
             self.route = ["block6", "block7"]  # Z Sopotu
             self.direction = "right"
-        elif self.location == "block55":
-            self.route = ["block56", "block57"]  # Z Gdańska Oliwy (SKM)
+        elif self.location == "block58":
+            self.route = ["block59", "block60"]  # Z Gdańska Oliwy (SKM)
             self.direction = "right"
         elif self.location == "block21":
             self.route = ["block22", "block23"]  # Z PKM

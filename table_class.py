@@ -11,7 +11,7 @@ class Table:
 
     def update_draw(self, screen):
         pygame.draw.rect(screen, (255, 255, 170), pygame.Rect(self.x, self.y, 920, self.x))
-        text = title_font.render("  NR                    ZE STACJI                              NR LINI                   DO STACJI", True, "black")
+        text = title_font.render("  NR                    ZE STACJI            P               NR LINI                   DO STACJI", True, "black")
         screen.blit(text, (self.x, self.y+10))
         for i, train in enumerate(self.trains):
             row_y = self.y + 40 + (i * 25)
@@ -20,14 +20,16 @@ class Table:
             text_origin = font.render(train[3], True, "black")
             text_line_number = font.render(str(train[4]), True, "black")
             text_direction = font.render(train[2], True, "black")
+            text_track_stop = font.render(str(train[6]), True, "black")
 
             # Wyświetlanie w kolumnach
             screen.blit(text_number, (self.x + 10, row_y))
             screen.blit(text_origin, (self.x + 80, row_y))
             screen.blit(text_line_number, (self.x + 380, row_y))
             screen.blit(text_direction, (self.x + 500, row_y))
+            screen.blit(text_track_stop, (self.x + 280, row_y))
 
-    def add_train(self, number,location, direction):
+    def add_train(self, number, location, direction, track_stop):
         id = 0
         id_list = [0]
         for train in self.trains:
@@ -36,14 +38,14 @@ class Table:
 
         origin = ""
         line = 202
-        if location == "block55":
+        if location == "block58":
             origin = "Gdańsk Oliwa SKM"
             line = 250
         if location == "block65":
             origin = "Gdansk Glowny SKM"
             line = 250
 
-        self.trains.append([number, location, direction, origin, line, id])
+        self.trains.append([number, location, direction, origin, line, id, track_stop])
 
     def del_train(self, number):
         self.trains.pop(number)
