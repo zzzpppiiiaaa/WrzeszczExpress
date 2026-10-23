@@ -1,11 +1,13 @@
 import pygame
 pygame.init()
+font = pygame.font.Font("assets/Bahnschrift.ttf", 18)
 
 class Rozjazd:
     rozjazd_right = pygame.image.load('assets/rozjazd w prawo.png')
     rozjazd_left = pygame.transform.flip(pygame.image.load('assets/rozjazd w prawo.png'), True, False)
 
-    def __init__(self, x, y, width=1, height=1, right=True):
+    def __init__(self, x, y, name, width=1, height=1, right=True):
+        self.name = name
         self.x = x
         self.y = y
         self.width = width
@@ -19,5 +21,6 @@ class Rozjazd:
 
     def draw(self, screen):
          screen.blit(self.img, (self.x, self.y))
+         screen.blit(font.render(f"{self.name}"[-3:], True, "green"), ((self.x + 10), self.y - 10))
 
 
