@@ -146,7 +146,7 @@ blocks = [
     Block(140, 670, 60, 6, "block60"),
     Block(300, 600, 40, 6, "block60"),
     Block(300, 670, 40, 6, "block60"),
-    Block(360, 600, 300, 6, "block60"),
+    Block(360, 600, 342, 6, "block60"),
     Block(360, 670, 600, 6, "block60"),
     Block(995, 670, 200, 6, "block60"),
     Block(1230, 670, 40, 6, "block60"),
@@ -154,12 +154,21 @@ blocks = [
     Block(930, 540, 200, 6, "block60"),
     Block(1165, 540, 60, 6, "block60"),
     Block(835, 540, 60, 6, "block60"),
+    #bloki do rozjazdów
+    Block(700, 280, 7, 320, "block100"),
 ]
 
 rozjazdy = [
-    Rozjazd(500, 117, 10, 10, right=True),
+    Rozjazd(400, 112, 12, 55, right=True),
     Rozjazd(1550, 112, 12, 55, right=False),
     Rozjazd(1500, 112, 12, 55, right=True),
+    Rozjazd(1550, 410, 12, 55, right=False),
+    Rozjazd(1500, 410, 12, 55, right=True),
+    Rozjazd(450, 410, 12, 55, right=True),
+    Rozjazd(800, 410, 12, 55, right=True),
+    Rozjazd(550, 610, 12, 55, right=True),
+    Rozjazd(650, 610, 12, 55, right=False),
+    Rozjazd(697, 564, 12, 45, right=True),
 
 ]
 
