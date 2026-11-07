@@ -1,6 +1,4 @@
 import random
-from threading import Semaphore
-
 import pygame
 from pygame.locals import *
 from train_class import Train
@@ -180,7 +178,6 @@ trains = [
 ]
 
 
-# Konfiguracja pociągów z nazwiskami bloków obecnymi w Twojej tablicy `blocks`
 TRAIN_CONFIG = {
     "R": {
         "weight": 0,
@@ -260,7 +257,6 @@ def spawn_train(blocks, table):
     if direction == "Gdansk Glowny SKM": track_stop = 502
     if direction == "Gdansk Oliwa": track_stop = 501
 
-    # Dodanie wpisu do tabeli oraz utworzenie pociągu
     table.add_train(number, place, direction, track_stop)
     return Train(number, place, blocks, direction, track_stop)
 table = Table()
@@ -281,6 +277,58 @@ przebiegi = {
         "blocks_block": ["block162", "block164"],
         "semaphore_block": ["H502", "J502"],
         "semaphore_allow": ["R502"]
+    },
+    # SKM w prawo
+    "J501C501": {
+        "blocks_block": ["block179", "block177"],
+        "semaphore_block": ["G501", "C501"],
+        "semaphore_allow": ["J501"]
+    },
+    "J502C502": {
+        "blocks_block": ["block180", "block178"],
+        "semaphore_block": ["G502", "C502"],
+        "semaphore_allow": ["J502"]
+    },
+    "C501exB501": {
+        "blocks_block": ["block173"],
+        "semaphore_block": ["C501", "B501"],
+        "semaphore_allow": ["C501", "exB501"]
+    },
+    "C502exB502": {
+        "blocks_block": ["block174"],
+        "semaphore_block": ["C502", "B502"],
+        "semaphore_allow": ["C502", "exB502"]
+    },
+    # SKM w lewo
+    "B501G501": {
+        "blocks_block": ["block173", "block177"],
+        "semaphore_block": ["C501", "G501"],
+        "semaphore_allow": ["B501"]
+    },
+    "B502G502": {
+        "blocks_block": ["block174", "block178"],
+        "semaphore_block": ["C502", "G502"],
+        "semaphore_allow": ["B502"]
+    },
+    "G501H501": {
+        "blocks_block": ["block179", "block163"],
+        "semaphore_block": ["H501", "J501"],
+        "semaphore_allow": ["G501"]
+    },
+    "G502H502": {
+        "blocks_block": ["block180", "block164"],
+        "semaphore_block": ["H502", "J502"],
+        "semaphore_allow": ["G502"]
+    },
+    "H501exR501": {
+        "blocks_block": ["block161"],
+        "semaphore_block": ["R501"],
+        "semaphore_allow": ["H501", "exR501"]
+    },
+    "H502exR502": {
+        "blocks_block": ["block162"],
+        "semaphore_block": ["R502"],
+        "semaphore_allow": ["H502", "exR502"]
     }
 }
 
@@ -300,103 +348,10 @@ def przebieg(sem1, sem2):
     print(f"Przebieg z {sem1} do {sem2}")
     przebieg = sem1+sem2
 
-    #SKM w prawo
-
     if przebieg in przebiegi:
         p_info = przebiegi[przebieg]
         do_semaphore(p_info["semaphore_block"], p_info["semaphore_allow"], p_info["blocks_block"])
 
-    elif przebieg == "J501C501":
-        for semaphore in semaphores:
-            if semaphore.name in ["G501", "C501"]: semaphore.state = "deny"
-            if semaphore.name in ["J501"]: semaphore.state = "allow"
-        for block in blocks:
-            if block.name in ["block179", "block177"]:
-                if block.state == "wolny":
-                    block.state = "przebieg"
-
-    elif przebieg == "J502C502":
-        for semaphore in semaphores:
-            if semaphore.name in ["G502", "C502"]: semaphore.state = "deny"
-            if semaphore.name in ["J502"]: semaphore.state = "allow"
-        for block in blocks:
-            if block.name in ["block180", "block178"]:
-                if block.state == "wolny":
-                    block.state = "przebieg"
-
-    elif przebieg == "C501exB501":
-        for semaphore in semaphores:
-            if semaphore.name in ["C501", "B501"]: semaphore.state = "deny"
-            if semaphore.name in ["C501", "exB501"]: semaphore.state = "allow"
-        for block in blocks:
-            if block.name in ["block173"]:
-                if block.state == "wolny":
-                    block.state = "przebieg"
-
-    elif przebieg == "C502exB502":
-        for semaphore in semaphores:
-            if semaphore.name in ["C502", "B502"]: semaphore.state = "deny"
-            if semaphore.name in ["C502", "exB502"]: semaphore.state = "allow"
-        for block in blocks:
-            if block.name in ["block174"]:
-                if block.state == "wolny":
-                    block.state = "przebieg"
-    #SKM w lewo
-    elif przebieg == "B501G501":
-        for semaphore in semaphores:
-            if semaphore.name in ["C501", "G501"]: semaphore.state = "deny"
-            if semaphore.name in ["B501"]: semaphore.state = "allow"
-        for block in blocks:
-            if block.name in ["block173", "block177"]:
-                if block.state == "wolny":
-                    block.state = "przebieg"
-
-    elif przebieg == "B502G502":
-        for semaphore in semaphores:
-            if semaphore.name in ["C502", "G502"]: semaphore.state = "deny"
-            if semaphore.name in ["B502"]: semaphore.state = "allow"
-        for block in blocks:
-            if block.name in ["block174", "block178"]:
-                if block.state == "wolny":
-                    block.state = "przebieg"
-
-    elif przebieg == "G501H501":
-        for semaphore in semaphores:
-            if semaphore.name in ["H501", "J501"]: semaphore.state = "deny"
-            if semaphore.name in ["G501"]: semaphore.state = "allow"
-        for block in blocks:
-            if block.name in ["block179", "block163"]:
-                if block.state == "wolny":
-                    block.state = "przebieg"
-
-    elif przebieg == "G502H502":
-        for semaphore in semaphores:
-            if semaphore.name in ["H502", "J502"]: semaphore.state = "deny"
-            if semaphore.name in ["G502"]: semaphore.state = "allow"
-        for block in blocks:
-            if block.name in ["block180", "block164"]:
-                if block.state == "wolny":
-                    block.state = "przebieg"
-
-
-    elif przebieg == "H501exR501":
-        for semaphore in semaphores:
-            if semaphore.name in ["R501"]: semaphore.state = "deny"
-            if semaphore.name in ["H501", "exR501"]: semaphore.state = "allow"
-        for block in blocks:
-            if block.name in ["block161"]:
-                if block.state == "wolny":
-                    block.state = "przebieg"
-
-
-    elif przebieg == "H502exR502":
-        for semaphore in semaphores:
-            if semaphore.name in ["R502"]: semaphore.state = "deny"
-            if semaphore.name in ["H502", "exR502"]: semaphore.state = "allow"
-        for block in blocks:
-            if block.name in ["block162"]:
-                if block.state == "wolny":
-                    block.state = "przebieg"
     else:
         clicked_semaphores.clear()
 

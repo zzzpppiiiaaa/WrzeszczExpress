@@ -47,7 +47,7 @@ class Train:
                     break
 
             # Sprawdzamy, czy następny blok istnieje i czy jest wolny
-            if next_block and next_block.state == "wolny":
+            if next_block and next_block.state in ( "wolny", "przebieg"):
                 self.iswaiting = False
 
                 # 1. Zwalniamy obecny blok (zmieniamy na 'wolny')
