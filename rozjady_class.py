@@ -21,6 +21,6 @@ class Rozjazd:
 
     def draw(self, screen):
          screen.blit(self.img, (self.x, self.y))
-         screen.blit(font.render(f"{self.name}"[-3:], True, "green"), ((self.x + 10), self.y - 10))
+         # screen.blit(font.render(f"{self.name}"[-3:], True, "green"), ((self.x + 10), self.y - 10))
 
 

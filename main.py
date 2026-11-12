@@ -15,12 +15,15 @@ FPS = 60
 speed = 1
 spawn_timer = 1000
 toleration = 100
+train_counter = 0
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Wrzeszcz Express")
 pygame.display.set_icon(screen)
 clock = pygame.time.Clock()
 font = pygame.font.Font("assets/Bahnschrift.ttf", 18)
+big_font = pygame.font.Font("assets/Bahnschrift.ttf", 64)
+calibri_font = pygame.font.SysFont("Calibri", 64)
 
 #obrazki
 kierunek_blokady_left = pygame.image.load('assets/blokada w lewo.png')#rozmiar 45 na 35
@@ -31,6 +34,8 @@ semafor_left = pygame.image.load('assets/semafor duzy w lewo.png')
 rozjazd_right = pygame.image.load('assets/rozjazd w prawo.png')
 rozjazd_left = pygame.image.load('assets/rozjazd w prawo.png')
 rozjazd_left = pygame.transform.flip(rozjazd_left, True, False)
+train_icon = pygame.image.load("assets/ikona pociągu.png")
+train_icon = pygame.transform.scale(train_icon, (120,90))
 
 
 semaphores = [
@@ -371,8 +376,7 @@ def przebieg(sem1, sem2):
     print(f"Przebieg z {sem1} do {sem2}")
     name = sem1 + sem2
     info = przebiegi.get(name)
-    if info is None or name in active_routes:
-        return
+    if info is None or name in active_routes: return
 
     route_blocks = [b for b in blocks if b.name in info["blocks_block"]]
     if any(b.state != "wolny" for b in route_blocks):
@@ -383,14 +387,6 @@ def przebieg(sem1, sem2):
         b.state = "przebieg"
     active_routes[name] = dict(info, start=sem1, end=sem2, train=None, entered=False)
 
-
-def update_trains():
-    """Aktualizuje pociągi i usuwa te, które dojechały do końca szlaku."""
-    for train in trains[:]:
-        train.update(blocks, active_routes)
-        if train.finished:
-            trains.remove(train)
-            # table.del_train(train.number)  # <- jeśli Twoja klasa Table ma taką metodę
 
 
 def update_routes():
@@ -486,7 +482,11 @@ while running:
         triangle.draw(screen)
 
 
-    update_trains()
+    for train in trains[:]:
+        train.update(blocks, active_routes)
+        if train.finished:
+            trains.remove(train)
+            train_counter +=1
     update_routes()
 
     for rozjazd in rozjazdy:
@@ -496,7 +496,7 @@ while running:
     for block in blocks:
         block.draw(screen)
         # To debug nazwy odcinków torowych
-        screen.blit(font.render(f"{block.name}"[-3:], True, (255, 255, 255)), ((block.left + 10), block.top - 10))
+        screen.blit(font.render(f"{block.name}".replace("block", ""), True, "gray"), ((block.left + 10), block.top - 10))
         if block.state == "zajety":
             for train in trains:
                 if train.location == block.name:
@@ -510,6 +510,18 @@ while running:
             toleration += -0.3
     pygame.draw.rect(screen, "orange", (50, 10, toleration * 18, 30))
     pygame.draw.rect(screen, "blue", (50, 10, 1800, 30), width=2)
+
+    # licznik pociągów
+    screen.blit(train_icon, (100, SCREEN_HEIGHT-200))
+    screen.blit(big_font.render(str(train_counter), True, (255, 255, 255)), (50, SCREEN_HEIGHT-150))
+
+    # Przegrywanie
+    if toleration <= 0:
+        screen.fill("black")
+        screen.blit(calibri_font.render("Przegrałeś                    ", True, "red"), (-100 +SCREEN_WIDTH/2, -300+SCREEN_HEIGHT/2))
+        screen.blit(calibri_font.render("Wygenerowałeś za dużo opóźnień", True, (255, 255, 255)), (-400 +SCREEN_WIDTH/2, -200+SCREEN_HEIGHT/2))
+        screen.blit(calibri_font.render(f"Twój wynik to {train_counter}", True, (255, 255, 255)), (-200 +SCREEN_WIDTH/2, -100+SCREEN_HEIGHT/2))
+        screen.blit(calibri_font.render("Słabiutko :P", True, "green"), (-120 + SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
 
     pygame.display.update()
 pygame.quit()

@@ -6,13 +6,13 @@ class Train:
         self.location = localisation
         self.clock = 0
         self.iswaiting = False
-        self.destination = direction  # nazwa kierunku (np. "Gdansk Oliwa") - do tabeli
-        self.direction = direction    # niżej nadpisywane na "left" / "right"
+        self.destination = direction  # nazwa kierunku np. "Gdansk Oliwa"
+        self.direction = direction    # "left" / "right"
         self.track_stop = track_stop
 
-        self.current_route = None   # przebieg dyżurnego, którym pociąg aktualnie jedzie
-        self.leaving = False        # True, gdy pociąg jedzie już szlakiem za stacją
-        self.finished = False       # True, gdy dojechał do końca szlaku (main.py go wtedy usuwa)
+        self.current_route = None
+        self.leaving = False
+        self.finished = False
 
         if self.location == "block11":
             self.route = ["block67", "block69", "block71"]  # z Gdańska Głównego LK202
@@ -32,7 +32,6 @@ class Train:
 
         self.change_block_state(blocks, self.location, "zajety")
 
-    # Funkcja pomocnicza do szukania bloku po nazwie i zmiany jego stanu
     def change_block_state(self, blocks, nazwa_bloku, nowy_stan):
         for block in blocks:
             if block.name == nazwa_bloku:
@@ -51,45 +50,30 @@ class Train:
                 return
 
     def move(self, blocks, active_routes):
-        # Skończyła się lista bloków: pociąg stoi przed semaforem i szuka ustawionego przebiegu
         if not self.route and not self.leaving:
             self.take_route(active_routes)
-
         if not self.route:
             if self.leaving:
-                # Koniec szlaku za stacją: pociąg znika z planszy
                 self.change_block_state(blocks, self.location, "wolny")
                 self.iswaiting = False
                 self.finished = True
-            else:
-                # Brak przebiegu: pociąg czeka przed semaforem
-                self.waiting()
+            else: self.waiting()
             return
 
         next_block_name = self.route[0]
 
-        # Szukamy obiektu następnego bloku w liście bloków
         next_block = None
         for block in blocks:
             if block.name == next_block_name:
                 next_block = block
                 break
 
-        # Sprawdzamy, czy następny blok istnieje i czy jest wolny (albo zarezerwowany przebiegiem)
         if next_block and next_block.state in ("wolny", "przebieg"):
             self.iswaiting = False
-
-            # 1. Zwalniamy obecny blok (zmieniamy na 'wolny')
             self.change_block_state(blocks, self.location, "wolny")
-
-            # 2. Przechodzimy na nowy blok z listy route
             self.location = self.route.pop(0)
-
-            # 3. Zajmujemy nowy blok (zmieniamy na 'zajety')
             self.change_block_state(blocks, self.location, "zajety")
-        else:
-            # Następny blok jest zajęty – pociąg czeka i nie zmienia pozycji
-            self.iswaiting = True
+        else: self.iswaiting = True
 
     def waiting(self):
         self.iswaiting = True
