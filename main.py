@@ -267,93 +267,156 @@ table.add_train(123, "block65", "Gdansk Glowny SKM", 501)
 
 clicked_semaphores = []
 
+# Przebiegi. Nazwa = semafor początkowy + semafor końcowy (klikane po kolei myszką).
+#   from_block      - blok, na którym stoi pociąg przed semaforem początkowym
+#   direction       - kierunek jazdy tego pociągu: "left" / "right"
+#   blocks_block    - bloki przebiegu W KOLEJNOŚCI JAZDY
+#   exit_blocks     - (tylko przebiegi wyjazdowe) szlak za stacją, którym pociąg odjeżdża i znika
+#   semaphore_block - semafory zastawiane na czas przebiegu (deny)
+#   semaphore_allow - semafory, które dają zielone
 przebiegi = {
     "R501J501": {
+        "from_block": "block57", "direction": "right",
         "blocks_block": ["block161", "block163"],
         "semaphore_block": ["H501", "G501", "J501"],
         "semaphore_allow": ["R501"]
     },
     "R502J502": {
+        "from_block": "block60", "direction": "right",
         "blocks_block": ["block162", "block164"],
         "semaphore_block": ["H502", "J502"],
         "semaphore_allow": ["R502"]
     },
     # SKM w prawo
     "J501C501": {
+        "from_block": "block163", "direction": "right",
         "blocks_block": ["block179", "block177"],
         "semaphore_block": ["G501", "C501"],
         "semaphore_allow": ["J501"]
     },
     "J502C502": {
+        "from_block": "block164", "direction": "right",
         "blocks_block": ["block180", "block178"],
         "semaphore_block": ["G502", "C502"],
         "semaphore_allow": ["J502"]
     },
     "C501exB501": {
+        "from_block": "block177", "direction": "right",
         "blocks_block": ["block173"],
+        "exit_blocks": ["block71", "block69", "block67", "block65"],
         "semaphore_block": ["C501", "B501"],
         "semaphore_allow": ["C501", "exB501"]
     },
     "C502exB502": {
+        "from_block": "block178", "direction": "right",
         "blocks_block": ["block174"],
+        "exit_blocks": ["block72", "block70", "block68", "block66"],
         "semaphore_block": ["C502", "B502"],
         "semaphore_allow": ["C502", "exB502"]
     },
     # SKM w lewo
     "B501G501": {
+        "from_block": "block71", "direction": "left",
         "blocks_block": ["block173", "block177"],
         "semaphore_block": ["C501", "G501"],
         "semaphore_allow": ["B501"]
     },
     "B502G502": {
+        "from_block": "block72", "direction": "left",
         "blocks_block": ["block174", "block178"],
         "semaphore_block": ["C502", "G502"],
         "semaphore_allow": ["B502"]
     },
     "G501H501": {
+        "from_block": "block177", "direction": "left",
         "blocks_block": ["block179", "block163"],
         "semaphore_block": ["H501", "J501"],
         "semaphore_allow": ["G501"]
     },
     "G502H502": {
+        "from_block": "block178", "direction": "left",
         "blocks_block": ["block180", "block164"],
         "semaphore_block": ["H502", "J502"],
         "semaphore_allow": ["G502"]
     },
     "H501exR501": {
+        "from_block": "block163", "direction": "left",
         "blocks_block": ["block161"],
+        "exit_blocks": ["block57", "block56", "block55"],
         "semaphore_block": ["R501"],
         "semaphore_allow": ["H501", "exR501"]
     },
     "H502exR502": {
+        "from_block": "block164", "direction": "left",
         "blocks_block": ["block162"],
+        "exit_blocks": ["block60", "block59", "block58"],
         "semaphore_block": ["R502"],
         "semaphore_allow": ["H502", "exR502"]
     }
 }
 
-def do_semaphore(sblock: list[str], sallow: list[str], bblock: list[str]):
-    for semaphore in semaphores:
-        if semaphore.name in sblock:
-            if semaphore.state == "default": semaphore.state = "deny"
-        if semaphore.name in sallow:
-            semaphore.state = "allow"
-    for block in blocks:
-        if block.name in bblock:
-            if block.state == "wolny":
-                block.state = "przebieg"
+# Przebiegi ustawione przez dyżurnego: nazwa -> dane (z przebiegi + start, end, train, entered).
+# Pociągi same z nich korzystają (Train.take_route).
+active_routes = {}
+
+# Semafory, którymi sterują przebiegi - tylko te są resetowane w update_routes()
+ROUTE_SIGNALS = {
+    name
+    for info in przebiegi.values()
+    for name in info["semaphore_block"] + info["semaphore_allow"]
+}
 
 
 def przebieg(sem1, sem2):
     print(f"Przebieg z {sem1} do {sem2}")
-    przebieg = sem1+sem2
+    name = sem1 + sem2
+    info = przebiegi.get(name)
+    if info is None or name in active_routes:
+        return
 
-    if przebieg in przebiegi:
-        p_info = przebiegi[przebieg]
-        do_semaphore(p_info["semaphore_block"], p_info["semaphore_allow"], p_info["blocks_block"])
+    route_blocks = [b for b in blocks if b.name in info["blocks_block"]]
+    if any(b.state != "wolny" for b in route_blocks):
+        print(f"Przebieg {name} niemożliwy: odcinek zajęty albo zarezerwowany")
+        return
 
-    else:
-        clicked_semaphores.clear()
+    for b in route_blocks:
+        b.state = "przebieg"
+    active_routes[name] = dict(info, start=sem1, end=sem2, train=None, entered=False)
+
+
+def update_trains():
+    """Aktualizuje pociągi i usuwa te, które dojechały do końca szlaku."""
+    for train in trains[:]:
+        train.update(blocks, active_routes)
+        if train.finished:
+            trains.remove(train)
+            # table.del_train(train.number)  # <- jeśli Twoja klasa Table ma taką metodę
+
+
+def update_routes():
+    """Zwalnia przebiegi, z których pociąg już zjechał, i liczy stany semaforów od nowa."""
+    for name, r in list(active_routes.items()):
+        train = r["train"]
+        if train is None:
+            continue                              # przebieg czeka na pociąg
+        if train.location in r["blocks_block"]:
+            r["entered"] = True                   # pociąg jedzie po przebiegu
+        elif r["entered"]:
+            del active_routes[name]               # pociąg zjechał z przebiegu -> zwolniony
+
+    for s in semaphores:
+        if s.name in ROUTE_SIGNALS:
+            s.state = "default"
+    for r in active_routes.values():
+        for s in semaphores:
+            if s.name in r["semaphore_block"] and s.state == "default":
+                s.state = "deny"
+    for r in active_routes.values():
+        for s in semaphores:
+            # semafor początkowy gaśnie, gdy pociąg wjechał na przebieg
+            if s.name in r["semaphore_allow"] and not (r["entered"] and s.name == r["start"]):
+                s.state = "allow"
+
 
 running = True
 while running:
@@ -423,8 +486,8 @@ while running:
         triangle.draw(screen)
 
 
-    for train in trains:
-        train.update(blocks)
+    update_trains()
+    update_routes()
 
     for rozjazd in rozjazdy:
         rozjazd.draw(screen)
